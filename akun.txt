@@ -1,0 +1,31 @@
+supabase
+RuangKita
+.M#G+2x5zZ!+4NE
+
+
+| Nama        | Tipe        | Keterangan                               |
+| ----------- | ----------- | ---------------------------------------- |
+| id          | uuid        | Primary key, default `gen_random_uuid()` |
+| slug        | text        | unique (URL produk)                      |
+| name        | text        | nama produk                              |
+| price       | integer     | harga (dalam rupiah)                     |
+| category    | text        | kategori (Kursi, Meja, dll)              |
+| description | text        | deskripsi                                |
+| image       | text        | path gambar (contoh `/kursi.jpg`)        |
+| featured    | boolean     | default `false`                          |
+| created_at  | timestamptz | default `now()`                          |
+
+
+
+Project URL
+https://ggyxyurppxactrfxdrrz.supabase.co
+
+API Key
+anon public
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdneXh5dXJwcHhhY3RyZnhkcnJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3MjEwNzMsImV4cCI6MjA3OTI5NzA3M30.mkVH_kPygCFP0vQQmWAVZWjgBURQx-B11PRNd3wiHSU
+
+email: admin@ruangkita.com
+password: admin123
+
+
+https://chatgpt.com/canvas/shared/692061a6f7208191818d658f75ba61d9

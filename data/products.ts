@@ -75,6 +75,17 @@ export const products: Product[] = [
     image: "",
     featured: true,
   },
+  {
+    id: "sofa-mini-hijaudaun",
+    slug: "sofa-mini-hijaudaun",
+    name: "Sofa Mini Hijaudaun",
+    price: 1350000,
+    category: "Sofa",
+    description:
+      "Sofa dua dudukan dengan warna hijau soft untuk ruang keluarga.",
+    image: "",
+    featured: true,
+  },
 ];
 
 export const featuredProducts = products.filter((p) => p.featured);

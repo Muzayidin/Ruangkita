@@ -1,8 +1,25 @@
+"use client";
+
 import Link from "next/link";
-import { featuredProducts } from "@/data/products";
+import { useEffect, useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
 
 export default function Home() {
+  const [featured, setFeatured] = useState([]);
+
+  useEffect(() => {
+    async function loadFeatured() {
+      const res = await fetch("/api/products", { cache: "no-store" });
+      const data = await res.json();
+
+      // ambil produk featured
+      const selected = data.filter((p: any) => p.featured === true);
+      setFeatured(selected);
+    }
+
+    loadFeatured();
+  }, []);
+
   return (
     <main className="max-w-6xl mx-auto px-4 py-6 space-y-10">
       {/* Hero Section */}
@@ -13,7 +30,7 @@ export default function Home() {
             <span>Garansi kualitas & pengiriman aman</span>
           </p>
           <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-3">
-            Furniture Minimalis untuk {""}
+            Furniture Minimalis untuk{" "}
             <span className="text-orange-500">Rumah Impian</span> Anda
           </h1>
           <p className="text-gray-600 text-sm mb-4 max-w-lg">
@@ -36,6 +53,7 @@ export default function Home() {
             </a>
           </div>
         </div>
+
         <div className="bg-white rounded-2xl shadow h-60 flex items-center justify-center">
           <span className="text-gray-400 text-sm">
             (Gambar ruang tamu minimalis)
@@ -56,11 +74,16 @@ export default function Home() {
             Lihat semua produk →
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+
+        {featured.length === 0 ? (
+          <p className="text-gray-500 text-sm">Belum ada produk featured.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {featured.map((product: any) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );

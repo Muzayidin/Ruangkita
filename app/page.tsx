@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 
-// 💡 FIX: Import fungsi fetching dari database helper, termasuk getHeroImagePath
+// Import fungsi fetching dari database helper: getFeaturedProducts dan getHeroImagePath
 import { getFeaturedProducts, getHeroImagePath } from "@/database/db-helper";
-// Import tipe data Product dari file tipe yang sudah dibuat
+// Import tipe data Product
 import { Product } from "@/types/products";
 
 import { ProductCard } from "@/components/ProductCard";

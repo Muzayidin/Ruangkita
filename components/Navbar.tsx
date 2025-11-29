@@ -11,7 +11,7 @@ export function Navbar() {
     <header className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
         <Link href="/" className="text-xl font-bold text-slate-700">
-          Furni<span className="text-orange-500">Casa</span>
+          Ruang<span className="text-orange-500">Kita</span>
         </Link>
         <nav className="hidden md:flex gap-4 text-sm text-gray-600">
           <Link href="/">Beranda</Link>

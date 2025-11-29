@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
+/* --- VARIABEL UMUM (DEFAULT LIGHT MODE) --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Latar Belakang: Soft Beige (Cerah, Hangat, Minimalis) */
+  --background: #f8f5f1;
+  /* Teks: Dark Charcoal */
+  --foreground: #333033;
+  /* Aksen (Tambahan untuk Styling Ceria) */
+  --accent: #84a98c;
 }
 
 @theme inline {
@@ -12,15 +17,25 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* --- MODE GELAP (DARK MODE) --- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Latar Belakang: Dark Navy/Charcoal (Estetik dan Tidak Terlalu Hitam) */
+    --background: #1a1b26;
+    /* Teks: Soft White */
+    --foreground: #e0e0e0;
+    /* Aksen (Lebih cerah agar kontras di Dark Mode) */
+    --accent: #a9d18e;
   }
 }
 
+/* --- APLIKASI STYLE --- */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Direkomendasikan menggunakan font Sans-Serif modern untuk estetika minimalis */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  /* Memberikan transisi halus saat mode terang/gelap berganti */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

@@ -7,24 +7,44 @@ export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.error || "Login gagal");
-      return;
+      // Cek content-type sebelum parse JSON
+      const contentType = res.headers.get("content-type");
+
+      if (!contentType || !contentType.includes("application/json")) {
+        setError("Server mengembalikan respons yang tidak valid");
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Login gagal");
+        return;
+      }
+
+      // Login berhasil
+      router.push("/admin/products");
+      router.refresh();
+    } catch (err) {
+      setError("Terjadi kesalahan koneksi. Silakan coba lagi.");
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
     }
-
-    router.push("/admin/products");
   }
 
   return (
@@ -40,29 +60,37 @@ export default function AdminLoginPage() {
         )}
 
         <div>
-          <label className="text-sm">Email</label>
+          <label className="text-sm block mb-1">Email</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border px-3 py-2 rounded mt-1"
+            className="w-full border px-3 py-2 rounded"
             required
+            disabled={loading}
+            placeholder="admin@ruangkita.com"
           />
         </div>
 
         <div>
-          <label className="text-sm">Password</label>
+          <label className="text-sm block mb-1">Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border px-3 py-2 rounded mt-1"
+            className="w-full border px-3 py-2 rounded"
             required
+            disabled={loading}
+            placeholder="••••••••"
           />
         </div>
 
-        <button className="w-full bg-slate-900 text-white py-2 rounded">
-          Login
+        <button
+          type="submit"
+          className="w-full bg-slate-900 text-white py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-800 transition"
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Login"}
         </button>
       </form>
     </main>

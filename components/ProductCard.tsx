@@ -1,21 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import type { Product } from "@/data/products";
+import type { Product } from "@/types/products";
 import { useCart } from "./CartProvider";
+import Image from "next/image"; // 💡 Import komponen Image dari Next.js
 
 export function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
 
   return (
     <div className="bg-white rounded-xl shadow p-4 flex flex-col">
-      <div className="bg-gray-200 h-32 mb-3 flex items-center justify-center text-gray-500 text-sm rounded-lg overflow-hidden">
+      {/* Tambahkan kelas 'relative' pada container agar Image fill={true} bekerja */}
+      <div className="bg-gray-200 h-32 mb-3 flex items-center justify-center text-gray-500 text-sm rounded-lg overflow-hidden relative">
         {product.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          // 💡 Ganti <img> dengan <Image />
+          <Image
             src={product.image}
             alt={product.name}
-            className="h-full w-full object-cover"
+            // Atribut fill={true} memastikan gambar mengisi seluruh tinggi div induk (h-32)
+            fill={true}
+            // objectFit: 'cover' adalah padanan dari Tailwind object-cover
+            style={{ objectFit: "cover" }}
+            className="rounded-lg"
           />
         ) : (
           "(Foto produk)"

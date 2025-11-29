@@ -1,8 +1,21 @@
 import Link from "next/link";
-import { featuredProducts } from "@/data/products";
+import Image from "next/image";
+
+// 💡 FIX: Import fungsi fetching dari database helper, termasuk getHeroImagePath
+import { getFeaturedProducts, getHeroImagePath } from "@/database/db-helper";
+// Import tipe data Product dari file tipe yang sudah dibuat
+import { Product } from "@/types/products";
+
 import { ProductCard } from "@/components/ProductCard";
 
-export default function Home() {
+// UBAH KOMPONEN MENJADI ASYNC (Server Component)
+export default async function Home() {
+  // 1. Fetch Hero Image Path dari database
+  const heroImagePath: string = getHeroImagePath();
+
+  // 2. Fetch Featured Products dari database
+  const featuredProducts: Product[] = getFeaturedProducts();
+
   return (
     <main className="max-w-6xl mx-auto px-4 py-6 space-y-10">
       {/* Hero Section */}
@@ -36,10 +49,16 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className="bg-white rounded-2xl shadow h-60 flex items-center justify-center">
-          <span className="text-gray-400 text-sm">
-            (Gambar ruang tamu minimalis)
-          </span>
+
+        {/* BAGIAN HERO IMAGE */}
+        <div className="bg-white rounded-2xl shadow h-60 relative overflow-hidden">
+          <Image
+            src={heroImagePath}
+            alt="Gambar ruang tamu minimalis"
+            fill={true}
+            style={{ objectFit: "cover" }}
+            className="rounded-2xl"
+          />
         </div>
       </section>
 

@@ -1,42 +1,51 @@
-// app/api/products/route.ts
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+// Asumsikan getAllProducts dan addProduct diimpor dari helper database
+import { getAllProducts, addProduct } from "@/database/db-helper";
 
+// Handler GET untuk mengambil daftar semua produk
 export async function GET() {
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  try {
+    // Memanggil helper database untuk mendapatkan semua produk
+    const products = await getAllProducts();
+    return NextResponse.json(products);
+  } catch (error) {
+    console.error("Gagal mengambil data produk:", error);
+    return NextResponse.json(
+      { message: "Gagal mengambil data produk" },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(data);
 }
 
+// Handler POST untuk MENAMBAH produk baru
 export async function POST(request: Request) {
-  const body = await request.json();
+  try {
+    // Mengambil data produk baru dari body request (dari formulir admin)
+    const newProductData = await request.json();
 
-  const { name, slug, price, category, description, image, featured } = body;
+    // Validasi sederhana
+    if (!newProductData.name || !newProductData.slug || !newProductData.price) {
+      return NextResponse.json(
+        {
+          message: "Data produk tidak lengkap (Nama, Slug, Harga wajib diisi)",
+        },
+        { status: 400 }
+      );
+    }
 
-  const { data, error } = await supabase.from("products").insert([
-    {
-      name,
-      slug,
-      price,
-      category,
-      description,
-      image,
-      featured: !!featured,
-    },
-  ]);
+    // Panggil helper database untuk menyimpan produk baru
+    const result = await addProduct(newProductData);
 
-  if (error) {
-    console.error(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // Mengembalikan status sukses 201 (Created)
+    return NextResponse.json(
+      { message: "Produk berhasil ditambahkan", product: result },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Gagal menambahkan produk:", error);
+    return NextResponse.json(
+      { message: "Gagal menambahkan produk ke database" },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(data?.[0] ?? null, { status: 201 });
 }

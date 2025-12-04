@@ -1,0 +1,22 @@
+---dashboard admin---
+login halaman admin aman
+view produk 
+input produk aman
+edit produk
+remove produk
+
+halaman manajemen produk tambahkan
+bisa meletakan produk ke produk unggulan
+belum bisa edit dan remove produk
+input foto produk dari local tersimpan di database
+pada table produk jangan menampilkan id, tapi tampilkan slug, 
+Harga gunakan titik misal 850.000
+pada halaman manajemen produk berikan preview foto produk, tampilan gunakan kartu produk dengan 1 kotak berisi foto tam keterangan
+hilangkan fitur
+
+
+ganti nama data base product.db jadi datas.db
+
+
+
+

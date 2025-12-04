@@ -1,26 +1,29 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest) {
-  const session = req.cookies.get("admin_session")?.value;
-  const path = req.nextUrl.pathname;
+export function middleware(request: NextRequest) {
+  const adminAuthToken = request.cookies.get("admin_auth_token");
+  const pathname = request.nextUrl.pathname;
 
-  const isAdminPage = path.startsWith("/admin");
-  const isLoginPage = path === "/admin/login";
-
-  // Jika sudah login dan akses halaman login, redirect ke dashboard
-  if (isLoginPage && session) {
-    return NextResponse.redirect(new URL("/admin/products", req.url));
+  // 1. Lindungi rute admin
+  if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
+    if (!adminAuthToken) {
+      // Redirect ke halaman login
+      const url = new URL("/admin/login", request.url);
+      return NextResponse.redirect(url);
+    }
   }
 
-  // Jika belum login dan akses halaman admin (bukan login), redirect ke login
-  if (isAdminPage && !isLoginPage && !session) {
-    return NextResponse.redirect(new URL("/admin/login", req.url));
+  // 2. Jika sudah login, jangan biarkan mengakses halaman login
+  if (pathname === "/admin/login" && adminAuthToken) {
+    // Redirect ke dashboard admin
+    const url = new URL("/admin/dashboard", request.url);
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
 }
 
+// Tentukan rute mana yang akan dijalankan oleh middleware
 export const config = {
   matcher: ["/admin/:path*"],
 };

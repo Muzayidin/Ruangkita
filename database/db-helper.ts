@@ -7,13 +7,10 @@ import { Product } from "@/types/products"; // Pastikan jalur ini benar
 let db: DatabaseType; // Menggunakan alias tipe yang diimpor
 try {
   // Lokasi file database. Hapus { readonly: true } agar bisa menjalankan INSERT.
-  db = new Database("database/products.db");
+  db = new Database("database/datas.db");
   db.pragma("journal_mode = WAL"); // Meningkatkan kinerja dan konkurensi
 } catch (error) {
-  console.error(
-    "CRITICAL ERROR: Gagal terhubung ke database products.db",
-    error
-  );
+  console.error("CRITICAL ERROR: Gagal terhubung ke database datas.db", error);
   // Di lingkungan produksi, Anda mungkin ingin melempar error,
   // tetapi untuk debugging, console.error sudah cukup.
   // Untuk mencegah error saat db digunakan, kita harus melempar error di sini.
@@ -107,14 +104,14 @@ export function getProductBySlug(slug: string): Product | undefined {
  */
 export function getHeroImagePath(): string {
   try {
-    const stmt = db.prepare("SELECT image FROM products WHERE id = ?");
+    const stmt = db.prepare("SELECT imageURL FROM products WHERE id = ?");
     // Mengambil gambar dari produk yang sudah kita tentukan sebagai Hero
     const result = stmt.get("kursi-santai-relax") as
-      | { image: string }
+      | { imageURL: string }
       | undefined;
 
     // Mengembalikan jalur gambar, atau jalur fallback
-    return result?.image || "/images/placeholder-hero.jpg";
+    return result?.imageURL || "/images/placeholder-hero.jpg";
   } catch (error) {
     console.error("Gagal mengambil gambar hero dari DB:", error);
     return "/images/placeholder-hero.jpg";

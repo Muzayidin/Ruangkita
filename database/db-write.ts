@@ -5,7 +5,7 @@ import { Product } from "@/types/products";
 const runWriteQuery = (sql: string, params: any) => {
   // KONEKSI WRITE: JANGAN gunakan { readonly: true }
   // File ini bertanggung jawab untuk operasi TULIS (INSERT/UPDATE) ke database lokal.
-  const db = new Database("database/products.db");
+  const db = new Database("database/datas.db");
   try {
     const stmt = db.prepare(sql);
     const result = stmt.run(params);

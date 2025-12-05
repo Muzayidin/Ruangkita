@@ -27,7 +27,7 @@ export default function AdminLoginPage() {
 
       if (response.ok) {
         console.log("Login berhasil:", data);
-        router.push("/admin/dashboard");
+        router.push("/admin/products");
       } else {
         setError(data.message || "Username atau password salah.");
       }

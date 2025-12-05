@@ -15,7 +15,8 @@ pada halaman manajemen produk berikan preview foto produk, tampilan gunakan kart
 hilangkan fitur
 
 
-ganti nama data base product.db jadi datas.db
+ganti nama data base product.db jadi datas.db sudah aman
+
 
 
 

@@ -2,7 +2,7 @@ const Database = require("better-sqlite3");
 const fs = require("fs");
 
 // Tentukan lokasi file database
-const dbFile = "database/products.db";
+const dbFile = "database/datas.db";
 const db = new Database(dbFile);
 
 function setupDatabase() {

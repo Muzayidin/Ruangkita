@@ -9,49 +9,74 @@ export function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
 
   return (
-    <div className="bg-white rounded-xl shadow p-4 flex flex-col">
-      {/* Tambahkan kelas 'relative' pada container agar Image fill={true} bekerja */}
-      <div className="bg-gray-200 h-32 mb-3 flex items-center justify-center text-gray-500 text-sm rounded-lg overflow-hidden relative">
-        {product.image ? (
-          // 💡 Ganti <img> dengan <Image />
-          <Image
-            src={product.image}
-            alt={product.name}
-            // Atribut fill={true} memastikan gambar mengisi seluruh tinggi div induk (h-32)
-            fill={true}
-            // objectFit: 'cover' adalah padanan dari Tailwind object-cover
-            style={{ objectFit: "cover" }}
-            className="rounded-lg"
-          />
-        ) : (
-          "(Foto produk)"
-        )}
+    <div className="group relative bg-stone-100/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl md:rounded-3xl overflow-hidden border border-stone-200/60 dark:border-slate-700 hover:border-orange-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/10 hover:-translate-y-2 flex flex-col h-full">
+      {/* Badge Overlay */}
+      <div className="absolute top-3 left-3 md:top-4 md:left-4 z-20">
+        <span className="px-2 py-0.5 md:px-3 md:py-1 text-[8px] md:text-[10px] font-bold tracking-widest uppercase bg-black/80 text-white rounded-full backdrop-blur-md">
+          {product.category || "New"}
+        </span>
       </div>
-      <Link
-        href={`/products/${product.slug}`}
-        className="font-semibold text-sm mb-1 hover:text-orange-600"
-      >
-        {product.name}
-      </Link>
-      <p className="text-orange-600 font-bold text-sm mb-2">
-        Rp {product.price.toLocaleString("id-ID")}
-      </p>
-      <p className="text-xs text-gray-500 mb-3 line-clamp-2">
-        {product.description}
-      </p>
-      <div className="mt-auto flex gap-2">
+
+      {/* Image Container */}
+      <div className="relative aspect-square bg-stone-200 dark:bg-slate-700 overflow-hidden">
+        {product.imageUrl ? (
+          <>
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              fill={true}
+              className="object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            />
+            {/* Gradient Overlay on Hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-full text-stone-400">
+            <span className="text-[10px] md:text-xs">No Image</span>
+          </div>
+        )}
+
+        {/* Floating Action Button (Quick Add) */}
         <button
-          onClick={() => addToCart(product)}
-          className="flex-1 bg-slate-900 text-white px-3 py-2 rounded text-xs"
+          onClick={(e) => {
+            e.preventDefault();
+            addToCart(product);
+          }}
+          className="absolute bottom-3 right-3 md:bottom-4 md:right-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-20 bg-white text-black p-2 md:p-3 rounded-full shadow-lg hover:bg-orange-600 hover:text-white"
+          title="Add to Cart"
         >
-          Tambah ke Keranjang
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 md:w-5 md:h-5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
         </button>
-        <Link
-          href={`/products/${product.slug}`}
-          className="text-xs border px-3 py-2 rounded bg-white"
-        >
-          Detail
-        </Link>
+      </div>
+
+      {/* Content */}
+      <div className="p-3 md:p-5 flex flex-col flex-1">
+        <div className="mb-2">
+          <h3 className="text-sm md:text-lg font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-orange-600 transition-colors">
+            <Link href={`/products/${product.slug}`}>
+              <span className="absolute inset-0 z-10" />
+              {product.name}
+            </Link>
+          </h3>
+          <p className="text-[10px] md:text-xs text-stone-500 mt-1 line-clamp-2">{product.description}</p>
+        </div>
+
+        <div className="mt-auto flex items-end justify-between border-t border-stone-200 dark:border-slate-700 pt-3 md:pt-4">
+          <div className="flex flex-col">
+            <span className="text-[10px] md:text-xs text-stone-400 font-medium uppercase tracking-wider">Harga</span>
+            <span className="text-sm md:text-xl font-bold text-slate-900 dark:text-white">
+              Rp {product.price.toLocaleString("id-ID")}
+            </span>
+          </div>
+          <div className="text-orange-500 group-hover:translate-x-1 transition-transform duration-300 hidden md:block">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -3,14 +3,15 @@ import { getProductBySlug } from "@/database/db-helper";
 import { Product } from "@/types/products";
 
 interface Context {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Handler GET untuk mengambil SATU produk berdasarkan slug
 export async function GET(request: Request, context: Context) {
-  const productSlug = context.params.slug;
+  const params = await context.params;
+  const productSlug = params.slug;
 
   if (!productSlug) {
     // Ini seharusnya tidak terjadi jika route diakses dengan benar

@@ -1,117 +1,143 @@
 import { notFound } from "next/navigation";
-import { Product } from "@/types/products"; // Hanya import tipe data
+import { Product } from "@/types/products";
 import AddToCartButton from "@/components/AddToCartButton";
+import Image from "next/image";
+import Link from "next/link";
 
 interface ProductDetailProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // **KOMPONEN SERVER ASINKRON**
 // Mengambil data produk melalui API Route dinamis (/api/products/[slug])
-export default async function ProductDetailPage({
-  params,
-}: ProductDetailProps) {
+export default async function ProductDetailPage(props: ProductDetailProps) {
+  const params = await props.params;
   const productSlug = params.slug;
 
-  // Lakukan fetch data ke API Route dinamis yang baru: /api/products/[slug]
-  // API ini kini akan memanggil database untuk mengambil produk tunggal
   const res = await fetch(`http://localhost:3000/api/products/${productSlug}`, {
-    cache: "no-store", // Pastikan selalu mengambil data terbaru
+    cache: "no-store",
   });
 
-  // Jika API mengembalikan 404 (Produk tidak ditemukan di database)
   if (res.status === 404) {
     notFound();
   }
 
   if (!res.ok) {
-    // Menangani kegagalan API lainnya
     throw new Error(`Gagal memuat data produk: ${res.statusText}`);
   }
 
-  // Produk tunggal (bukan array)
   const product: Product = await res.json();
 
-  // Menggunakan data produk yang lengkap
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-gray-50 min-h-screen">
-      <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8">
-        <div className="mb-8">
-          <a
+    <div className="min-h-screen bg-[#f2f0e9] dark:bg-[#0f1115] text-slate-800 dark:text-slate-200">
+      {/* Immersive Hero Layout */}
+      <div className="grid lg:grid-cols-2 min-h-[calc(100vh-80px)]">
+
+        {/* Left: Image Showcase (Sticky on Desktop) */}
+        <div className="relative h-[50vh] lg:h-auto lg:sticky lg:top-[80px] bg-stone-200 dark:bg-slate-800 overflow-hidden">
+          {product.imageUrl ? (
+            <>
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                fill={true}
+                className="object-cover"
+                priority
+              />
+              {/* Gradient Overlay for Text Readability if needed */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent lg:hidden" />
+            </>
+          ) : (
+            <div className="flex items-center justify-center h-full text-stone-400">
+              <span className="text-xl font-light">Image Not Available</span>
+            </div>
+          )}
+
+          {/* Back Button (Floating on Mobile) */}
+          <Link
             href="/products"
-            className="inline-flex items-center text-sm font-medium text-indigo-500 hover:text-indigo-700 transition duration-150"
+            className="absolute top-6 left-6 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-white hover:text-black transition-all"
           >
-            &larr; Kembali ke Katalog
-          </a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+          </Link>
         </div>
 
-        <h1 className="text-4xl font-extrabold mb-6 text-gray-900 leading-tight">
-          {product.name}
-        </h1>
+        {/* Right: Product Details (Scrollable) */}
+        <div className="flex flex-col justify-center px-6 py-12 lg:px-20 lg:py-24 max-w-2xl mx-auto w-full">
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Bagian Gambar */}
-          <div className="relative">
-            <img
-              src={product.image}
-              alt={`Gambar ${product.name}`}
-              className="w-full h-auto object-cover rounded-lg shadow-md"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src =
-                  "https://placehold.co/600x400/CCCCCC/333333?text=Gambar+Tidak+Tersedia";
-              }}
-            />
-            <span
-              className={`absolute top-2 right-2 px-3 py-1 text-xs font-semibold rounded-full ${
-                product.featured === 1
-                  ? "bg-yellow-400 text-yellow-900"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-            >
-              {product.featured === 1 ? "Unggulan" : "Standar"}
+          {/* Category Tag */}
+          <div className="mb-6 animate-fade-in opacity-0 fill-mode-forwards" style={{ animationDelay: '100ms' }}>
+            <span className="inline-block px-3 py-1 rounded-full border border-stone-300 dark:border-slate-700 text-xs font-semibold tracking-widest uppercase text-stone-500 dark:text-slate-400">
+              {product.category || "Collection"}
             </span>
           </div>
 
-          {/* Bagian Detail */}
-          <div>
-            <p className="text-2xl font-bold text-indigo-600 mb-4">
+          {/* Title and Price */}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4 leading-none font-serif animate-fade-in opacity-0 fill-mode-forwards" style={{ animationDelay: '200ms' }}>
+            {product.name}
+          </h1>
+
+          <div className="flex items-center gap-4 mb-8 animate-fade-in opacity-0 fill-mode-forwards" style={{ animationDelay: '300ms' }}>
+            <span className="text-3xl font-light text-orange-600 dark:text-orange-500">
               Rp {product.price.toLocaleString("id-ID")}
-            </p>
-
-            <div className="mb-4">
-              <span className="inline-block bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
-                Kategori: {product.category}
+            </span>
+            {product.featured === 1 && (
+              <span className="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-[10px] font-bold uppercase tracking-wide rounded">
+                Best Seller
               </span>
-              <span className="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                ID: {product.id}
-              </span>
-            </div>
+            )}
+          </div>
 
-            <h3 className="text-xl font-semibold mt-6 mb-2 text-gray-800">
-              Deskripsi
-            </h3>
-            <p className="text-gray-700 leading-relaxed border-l-4 border-indigo-300 pl-4 py-1 bg-indigo-50/50 rounded-md">
+          {/* Description */}
+          <div className="prose prose-lg prose-stone dark:prose-invert mb-12 animate-fade-in opacity-0 fill-mode-forwards" style={{ animationDelay: '400ms' }}>
+            <p className="text-lg leading-relaxed text-stone-600 dark:text-slate-400">
               {product.description}
             </p>
+            <p className="text-sm text-stone-500 italic mt-4">
+              *Pengiriman tersedia untuk seluruh wilayah Indonesia. Garansi 1 tahun untuk kerusakan struktural.
+            </p>
+          </div>
 
-            {/* MENGGUNAKAN KOMPONEN KLIEN UNTUK INTERAKSI ONCLICK */}
-            <AddToCartButton productName={product.name} />
+          {/* Action Area */}
+          <div className="border-t border-stone-300 dark:border-slate-700 pt-8 animate-slide-up opacity-0 fill-mode-forwards" style={{ animationDelay: '500ms' }}>
+            <div className="flex flex-col gap-4">
+              <AddToCartButton product={product} />
+
+              <button className="w-full py-4 rounded-full border border-stone-300 dark:border-slate-600 font-semibold hover:bg-stone-100 dark:hover:bg-slate-800 transition-colors">
+                Tanya Produk (WhatsApp)
+              </button>
+            </div>
+
+            <div className="mt-8 flex gap-8 justify-center lg:justify-start text-stone-400 text-sm">
+              <div className="flex items-center gap-2">
+                <span>🚚</span> Gratis Ongkir
+              </div>
+              <div className="flex items-center gap-2">
+                <span>🛡️</span> Garansi Resmi
+              </div>
+              <div className="flex items-center gap-2">
+                <span>🔄</span> 30 Hari Retur
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Related Products Section (Enhancement) */}
+      <section className="bg-stone-100 dark:bg-black/20 py-20 px-4 border-t border-stone-200 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-2xl font-bold mb-8 text-center">Lengkapi Ruangan Anda</h2>
+          {/* Placeholder for related products grid */}
+          <div className="text-center text-stone-400 text-sm">
+            [Related products component would go here]
           </div>
         </div>
-
-        {/* Produk Terkait: Placeholder untuk ProductCard */}
-        <section className="mt-12 pt-8 border-t border-gray-200">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-            Produk Terkait
-          </h2>
-          <p className="text-gray-500">
-            Fungsionalitas produk terkait akan ditambahkan di sini.
-          </p>
-        </section>
-      </div>
+      </section>
     </div>
   );
 }

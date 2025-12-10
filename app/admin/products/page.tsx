@@ -28,7 +28,7 @@ export default async function AdminProductsPage() {
           <Link href="/admin/products/new">
             <button
               style={{
-                padding: "8px 16px",
+                padding: "10px 24px",
                 background: t.primary,
                 color: "white",
                 border: "none",
@@ -36,6 +36,8 @@ export default async function AdminProductsPage() {
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: "pointer",
+                boxShadow: t.shadowSoft,
+                transition: "transform 0.2s",
               }}
             >
               + Tambah Produk
@@ -44,48 +46,54 @@ export default async function AdminProductsPage() {
         </>
       }
     >
-      {/* Card ringkasan (opsional) */}
+      {/* Stats Summary */}
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: 16,
-          marginBottom: 20,
+          gap: 20,
+          marginBottom: 32,
         }}
       >
         <div
           style={{
             background: t.surface,
-            borderRadius: t.radiusLg,
-            border: `1px solid ${t.borderSoft}`,
-            padding: 16,
-            boxShadow: t.shadowSoft,
+            backdropFilter: "blur(12px)",
+            borderRadius: t.radiusMd,
+            border: `1px solid ${t.border}`,
+            padding: 24,
+            boxShadow: t.shadowCard,
           }}
         >
           <div
             style={{
-              fontSize: 12,
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: 1,
               color: t.textMuted,
-              marginBottom: 4,
+              marginBottom: 8,
             }}
           >
-            Total produk
+            Total Produk
           </div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: t.text }}>
+          <div style={{ fontSize: 32, fontWeight: 800, color: t.text, fontFamily: 'serif' }}>
             {products.length}
           </div>
         </div>
       </div>
 
+      {/* Product Grid */}
       {products.length === 0 ? (
         <div
           style={{
             background: t.surface,
             borderRadius: t.radiusLg,
-            border: `1px solid ${t.borderSoft}`,
-            padding: 32,
+            border: `1px solid ${t.border}`,
+            padding: 48,
             textAlign: "center",
             color: t.textSoft,
+            fontSize: 16
           }}
         >
           Belum ada produk. Mulai dengan menambahkan produk pertama.
@@ -93,37 +101,27 @@ export default async function AdminProductsPage() {
       ) : (
         <div
           style={{
-            background: t.surface,
-            borderRadius: t.radiusLg,
-            border: `1px solid ${t.borderSoft}`,
-            padding: 16,
-            boxShadow: t.shadowCard,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+            gap: 12,
           }}
         >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-              gap: 16,
-            }}
-          >
-            {products.map((p) => (
-              <Link
-                key={p.id}
-                href={`/admin/products/${p.id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <ProductCard
-                  name={p.name}
-                  price={p.price}
-                  imageUrl={p.imageUrl}
-                  category={p.category}
-                  featured={p.featured}
-                  stock={p.stock}
-                />
-              </Link>
-            ))}
-          </div>
+          {products.map((p) => (
+            <Link
+              key={p.id}
+              href={`/admin/products/${p.id}`}
+              style={{ textDecoration: "none", color: "inherit", display: 'block' }}
+            >
+              <ProductCard
+                name={p.name}
+                price={p.price}
+                imageUrl={p.imageUrl}
+                category={p.category}
+                featured={p.featured}
+                stock={p.stock}
+              />
+            </Link>
+          ))}
         </div>
       )}
     </AdminShell>

@@ -6,7 +6,7 @@ export type Product = {
   price: number;
   category: string;
   description: string;
-  image: string; // URL gambar dari database
+  imageUrl: string; // URL gambar dari database
   featured: 0 | 1; // Dari database, 1 atau 0
 };
 
@@ -28,7 +28,7 @@ export const products: Product[] = [
     category: "Meja",
     description:
       "Meja kokoh dengan desain minimalis scandinavian. Ideal untuk ruang kerja modern.",
-    image: "https://placehold.co/400x300/F0F4F8/3B82F6?text=Meja+Kerja",
+    imageUrl: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=800&q=80",
     featured: 1,
   },
   {
@@ -39,7 +39,7 @@ export const products: Product[] = [
     category: "Kursi",
     description:
       "Kursi dengan penyangga punggung dan leher yang bisa diatur, sangat nyaman untuk bekerja berjam-jam.",
-    image: "https://placehold.co/400x300/F0F4F8/10B981?text=Kursi+Ergonomis",
+    imageUrl: "https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=800&q=80",
     featured: 0,
   },
   {
@@ -50,7 +50,7 @@ export const products: Product[] = [
     category: "Penyimpanan",
     description:
       "Lemari luas dengan cermin di pintu tengah, menyediakan ruang penyimpanan yang maksimal.",
-    image: "https://placehold.co/400x300/F0F4F8/EF4444?text=Lemari+Pakaian",
+    imageUrl: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=80",
     featured: 1,
   },
 ];

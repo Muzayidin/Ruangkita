@@ -1,5 +1,7 @@
 // components/admin/ProductCard.tsx
 import { adminTheme as t } from "@/app/admin/adminTheme";
+import Image from "next/image";
+
 type ProductCardProps = {
   name: string;
   price: number;
@@ -17,99 +19,66 @@ export default function ProductCard({
   featured,
   stock,
 }: ProductCardProps) {
+  // Menggunakan styling yang sama persis dengan Public ProductCard
+  // bg-stone-100/50 -> rgba(245, 245, 244, 0.5)
   return (
-    <div
-      style={{
-        border: "1px solid #ddd",
-        borderRadius: 8,
-        overflow: "hidden",
-        background: "white",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.06)",
-        cursor: "pointer",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        transition: "transform 0.15s ease, box-shadow 0.15s ease",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          aspectRatio: "1 / 1",
-          overflow: "hidden",
-          position: "relative",
-          background: t.bgSoft,
-        }}
-      >
-        <img
-          src={imageUrl || "/placeholder-product.jpg"}
-          alt={name}
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
+    <div className="group relative bg-[#f5f5f4]/50 backdrop-blur-sm rounded-3xl overflow-hidden border border-[#e7e5e4]/60 hover:border-orange-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/10 hover:-translate-y-2 flex flex-col h-full">
+      {/* Badge Overlay */}
+      {featured === 1 && (
+        <div className="absolute top-4 left-4 z-20">
+          <span className="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-black/80 text-white rounded-full backdrop-blur-md shadow-lg">
+            Featured
+          </span>
+        </div>
+      )}
+
+      {/* Image Container */}
+      <div className="relative aspect-square bg-[#e7e5e4] overflow-hidden">
+        {imageUrl ? (
+          <>
+            <Image
+              src={imageUrl}
+              alt={name}
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-full text-[#a8a29e]">
+            <span className="text-xs font-medium">No Image</span>
+          </div>
+        )}
       </div>
 
-      <div
-        style={{
-          padding: 12,
-          flexGrow: 1,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <h3
-          style={{
-            margin: "0 0 6px",
-            fontSize: 16,
-            fontWeight: 600,
-            color: t.text,
-          }}
-        >
-          {name}
-        </h3>
+      {/* Content */}
+      <div className="p-5 flex flex-col flex-1">
+        <div className="mb-2">
+          <div className="text-[10px] font-bold tracking-widest uppercase text-[#78716c] mb-1">
+            {category || "Uncategorized"}
+          </div>
+          <h3 className="text-lg font-bold text-[#1f2937] leading-tight group-hover:text-orange-600 transition-colors line-clamp-2">
+            {name}
+          </h3>
+        </div>
 
-        <p
-          style={{
-            margin: "0 0 6px",
-            fontSize: 14,
-            color: "#444",
-          }}
-        >
-          Rp {price.toLocaleString("id-ID")}
-        </p>
-
-        <p
-          style={{
-            margin: "0 0 6px",
-            fontSize: 12,
-            color: "#777",
-          }}
-        >
-          {category || "Tanpa kategori"}
-        </p>
-
-        <div
-          style={{
-            marginTop: "auto",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            fontSize: 12,
-            color: "#666",
-          }}
-        >
-          <span>Stok: {stock ?? 0}</span>
-
-          {featured === 1 && (
-            <span style={{ color: "#f39c12", fontWeight: 600 }}>
-              ⭐ Unggulan
+        <div className="mt-auto flex items-end justify-between border-t border-[#e7e5e4] pt-4">
+          <div className="flex flex-col">
+            <span className="text-xs text-[#a8a29e] font-medium uppercase tracking-wider">Harga</span>
+            <span className="text-xl font-bold text-[#1c1917]">
+              Rp {price.toLocaleString("id-ID")}
             </span>
-          )}
+          </div>
+
+          {/* Admin Specific Info: Stock */}
+          <div className="flex flex-col items-end">
+            <span className="text-xs text-[#a8a29e] font-medium uppercase tracking-wider">Stok</span>
+            <span className={`text-sm font-bold ${stock && stock > 0 ? "text-emerald-600" : "text-red-500"}`}>
+              {stock ?? 0} unit
+            </span>
+          </div>
         </div>
       </div>
     </div>

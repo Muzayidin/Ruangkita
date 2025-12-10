@@ -1,24 +1,22 @@
 "use client";
 
-import React from "react";
+import { Product } from "@/types/products";
+import { useCart } from "./CartProvider";
 
 interface AddToCartButtonProps {
-  productName: string;
+  product: Product;
 }
 
-export default function AddToCartButton({ productName }: AddToCartButtonProps) {
+export default function AddToCartButton({ product }: AddToCartButtonProps) {
+  const { addToCart } = useCart();
+
   const handleAddToCart = () => {
-    // Di sini Anda akan menambahkan logika sebenarnya untuk menambahkan produk ke keranjang.
-    // Saat ini hanya logging ke konsol dan menampilkan alert.
-    console.log(`Produk '${productName}' ditambahkan ke keranjang.`);
-    alert(
-      `Produk ${productName} berhasil ditambahkan! (Logika nyata akan ditambahkan nanti)`
-    );
+    addToCart(product);
   };
 
   return (
     <button
-      className="mt-6 w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300 transform hover:scale-[1.01]"
+      className="w-full py-4 text-lg bg-orange-600 text-white font-bold rounded-full shadow-xl hover:bg-orange-500 hover:shadow-orange-500/30 transition-all duration-300 transform hover:scale-[1.02]"
       onClick={handleAddToCart}
     >
       Tambah ke Keranjang

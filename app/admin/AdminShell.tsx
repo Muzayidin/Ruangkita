@@ -40,26 +40,28 @@ export default function AdminShell({
       <aside
         style={{
           borderRight: `1px solid ${t.border}`,
-          background: "#ffffff",
-          padding: 20,
+          background: "rgba(255, 255, 255, 0.5)",
+          backdropFilter: "blur(12px)",
+          padding: 24,
           display: "flex",
           flexDirection: "column",
-          gap: 16,
+          gap: 20,
         }}
       >
         <div
           style={{
-            fontWeight: 800,
-            fontSize: 20,
-            letterSpacing: 0.3,
+            fontWeight: 900,
+            fontSize: 24,
+            letterSpacing: -0.5,
             marginBottom: 8,
             color: t.text,
+            fontFamily: "serif", // Premium look
           }}
         >
-          RuangKita Admin
+          RuangKita <span style={{ color: t.warning }}>.</span>
         </div>
-        <div style={{ fontSize: 12, color: t.textMuted, marginBottom: 12 }}>
-          Dashboard toko furniture
+        <div style={{ fontSize: 13, color: t.textSoft, marginBottom: 16 }}>
+          Admin Dashboard
         </div>
 
         <nav style={{ display: "flex", flexDirection: "column", gap: 4 }}>

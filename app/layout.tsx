@@ -6,7 +6,7 @@ import { CartSidebar } from "@/components/CartSidebar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "FurniCasa - Toko Furniture",
+  title: "RuangKita - Toko Furniture Modern",
   description: "Toko furniture minimalis untuk rumah dan bisnis Anda.",
 };
 

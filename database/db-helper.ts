@@ -32,11 +32,11 @@ function runQuery(sql: string, params: any[] = []) {
 
 // Fungsi untuk menambahkan produk baru (Memperbaiki Error TypeScript)
 export function addProduct(productData: Omit<Product, "id">) {
-  const { slug, name, price, category, description, image, featured } =
+  const { slug, name, price, category, description, imageUrl, featured } =
     productData;
 
   const sql = `
-        INSERT INTO products (slug, name, price, category, description, image, featured)
+        INSERT INTO products (slug, name, price, category, description, imageUrl, featured)
         VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -47,7 +47,7 @@ export function addProduct(productData: Omit<Product, "id">) {
     price,
     category,
     description,
-    image,
+    imageUrl,
     featured,
   ]);
 

@@ -2,17 +2,29 @@
 
 /* --- VARIABEL UMUM (DEFAULT LIGHT MODE) --- */
 :root {
-  /* Latar Belakang: Soft Beige (Cerah, Hangat, Minimalis) */
-  --background: #f8f5f1;
-  /* Teks: Dark Charcoal */
-  --foreground: #333033;
-  /* Aksen (Tambahan untuk Styling Ceria) */
-  --accent: #84a98c;
+  /* Latar Belakang: Creamy White (Hangat, Bersih, Premium) */
+  --background: #fcfbf9;
+  /* Teks: Deep Charcoal (Kontras tinggi tapi tidak setajam hitam murni) */
+  --foreground: #1f2937;
+  /* Primary: Sage Green (Tenang, Modern, Natural) */
+  --primary: #5f8d4e;
+  /* Secondary: Soft Gold/Beige (Aksen elegan) */
+  --secondary: #e2d1c3;
+  /* Accent: Burnt Orange (Untuk CTA - Call to Action) */
+  --accent: #d97706;
+
+  --muted: #9ca3af;
+  --card-bg: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-card-bg: var(--card-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -20,22 +32,88 @@
 /* --- MODE GELAP (DARK MODE) --- */
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Latar Belakang: Dark Navy/Charcoal (Estetik dan Tidak Terlalu Hitam) */
-    --background: #1a1b26;
-    /* Teks: Soft White */
-    --foreground: #e0e0e0;
-    /* Aksen (Lebih cerah agar kontras di Dark Mode) */
-    --accent: #a9d18e;
+    /* Latar Belakang: Deep Gunmetal (Elegant Dark) */
+    --background: #111827;
+    /* Teks: Off-White */
+    --foreground: #f3f4f6;
+    /* Primary: Muted Sage (Lebih soft di mata) */
+    --primary: #8abf8a;
+    /* Secondary: Darker Beige */
+    --secondary: #4b5563;
+    /* Accent: Orange Amber */
+    --accent: #f59e0b;
+
+    --muted: #6b7280;
+    --card-bg: #1f2937;
   }
 }
 
 /* --- APLIKASI STYLE --- */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  /* Direkomendasikan menggunakan font Sans-Serif modern untuk estetika minimalis */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  /* Memberikan transisi halus saat mode terang/gelap berganti */
+  /* Font modern dan bersih */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utily Classes Custom */
+.glass-effect {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.heading-font {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
 }

@@ -40,8 +40,12 @@ export function Navbar() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex gap-8 items-center">
-            {["Beranda", "Katalog"].map((item, idx) => {
-              const href = item === "Beranda" ? "/" : "/products";
+            {["Beranda", "Katalog", "Tentang Kami", "Blog"].map((item, idx) => {
+              let href = "/";
+              if (item === "Katalog") href = "/products";
+              if (item === "Tentang Kami") href = "/about";
+              if (item === "Blog") href = "/blog";
+
               return (
                 <Link
                   key={idx}
@@ -105,16 +109,23 @@ export function Navbar() {
           }`}
       >
         <nav className="px-4 pt-2 pb-6 space-y-2">
-          {["Beranda", "Katalog"].map((item) => (
-            <Link
-              key={item}
-              href={item === "Beranda" ? "/" : "/products"}
-              className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-orange-600 hover:bg-orange-50 dark:text-slate-200 dark:hover:bg-slate-800"
-              onClick={handleLinkClick}
-            >
-              {item}
-            </Link>
-          ))}
+          {["Beranda", "Katalog", "Tentang Kami", "Blog"].map((item) => {
+            let href = "/";
+            if (item === "Katalog") href = "/products";
+            if (item === "Tentang Kami") href = "/about";
+            if (item === "Blog") href = "/blog";
+
+            return (
+              <Link
+                key={item}
+                href={href}
+                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-orange-600 hover:bg-orange-50 dark:text-slate-200 dark:hover:bg-slate-800"
+                onClick={handleLinkClick}
+              >
+                {item}
+              </Link>
+            )
+          })}
         </nav>
       </div>
     </header>

@@ -9,8 +9,8 @@ console.log("DATABASE_URL:", process.env.DATABASE_URL);
 const prisma = new PrismaClient();
 
 // Kredensial Admin yang Ingin Dibuat
-const ADMIN_USERNAME = "superadmin";
-const ADMIN_PASSWORD = "verysecurepassword"; // GANTI DENGAN PASSWORD ASLI ANDA
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "admin123"; // GANTI DENGAN PASSWORD ASLI ANDA
 
 async function main() {
   console.log("Memulai proses seeding admin user...");

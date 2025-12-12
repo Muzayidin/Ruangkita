@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getFeaturedProducts, getHeroImagePath } from "@/database/db-helper";
+import { getFeaturedProducts } from "@/database/db-helper";
 import { Product } from "@/types/products";
 import { ProductCard } from "@/components/ProductCard";
 
 export default async function Home() {
-  const heroImagePath: string = getHeroImagePath();
+  const heroImagePath: string = "/ruang tamu minimalis.jpg";
   const featuredProducts: Product[] = getFeaturedProducts();
 
   return (
@@ -54,18 +54,18 @@ export default async function Home() {
       {/* Features / Why Choose Us */}
       <section className="py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center">
+          <div className="grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-8 text-center">
             {[
               { title: "Desain Premium", desc: "Dikurasi oleh desainer interior profesional.", icon: "🎨" },
               { title: "Kualitas Terbaik", desc: "Material pilihan yang tahan lama dan kokoh.", icon: "💎" },
-              { title: "Gratis Pengiriman", desc: "Untuk wilayah Jabodetabek dengan minimal belanja.", icon: "🚚" },
+              { title: "Gratis Ongkir", desc: "Untuk wilayah Jawa Timur dengan minimal belanja.", icon: "🚚" },
             ].map((feature, i) => (
-              <div key={i} className="group p-6 md:p-10 rounded-3xl bg-white/40 dark:bg-white/5 backdrop-blur-sm border border-white/50 dark:border-white/10 hover:bg-white/60 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-                <div className="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">
+              <div key={i} className="group p-3 md:p-10 rounded-2xl md:rounded-3xl bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/50 dark:border-white/10 hover:bg-white/70 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 shadow-md shadow-slate-200/50 dark:shadow-none flex flex-col items-center text-center">
+                <div className="text-2xl md:text-5xl mb-3 md:mb-6 group-hover:scale-105 transition-transform duration-300 drop-shadow-sm p-2 md:p-4 bg-white/50 rounded-full">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 md:mb-3 font-serif">{feature.title}</h3>
-                <p className="text-sm md:text-base text-stone-600 dark:text-stone-400 leading-relaxed font-medium">{feature.desc}</p>
+                <h3 className="text-xs md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-1 md:mb-3 font-serif tracking-tight">{feature.title}</h3>
+                <p className="text-[10px] md:text-base text-stone-600 dark:text-stone-400 leading-tight md:leading-relaxed font-medium">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -101,25 +101,56 @@ export default async function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-32 bg-slate-900 overflow-hidden relative mx-0 sm:mx-4 mb-0 sm:mb-4 rounded-none sm:rounded-3xl">
-        {/* Abstract shapes */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[20rem] md:w-[30rem] h-[20rem] md:h-[30rem] bg-orange-600/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[20rem] md:w-[30rem] h-[20rem] md:h-[30rem] bg-indigo-600/20 rounded-full blur-[100px]" />
+      <section className="py-8 md:py-16 mx-4 mb-8">
+        <div className="relative rounded-[2.5rem] bg-slate-900 overflow-hidden shadow-2xl">
+          {/* Background Effects */}
+          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[20rem] md:w-[40rem] h-[20rem] md:h-[40rem] bg-orange-600/20 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[20rem] md:w-[40rem] h-[20rem] md:h-[40rem] bg-indigo-600/20 rounded-full blur-[100px]" />
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-3xl md:text-6xl font-black text-white mb-4 md:mb-8 font-serif leading-tight">
-            Siap Mengubah Suasana Rumah Anda?
-          </h2>
-          <p className="text-base md:text-xl text-slate-300 mb-8 md:mb-12 leading-relaxed max-w-2xl mx-auto font-light">
-            Konsultasikan kebutuhan interior Anda bersama kami secara gratis via WhatsApp.
-          </p>
-          <a
-            href="https://wa.me/6281234567890"
-            target="_blank"
-            className="inline-flex items-center gap-2 md:gap-3 bg-green-600 hover:bg-green-500 text-white px-6 py-3 md:px-10 md:py-5 rounded-full font-bold text-base md:text-xl transition-all shadow-xl hover:shadow-green-500/30 hover:-translate-y-1"
-          >
-            <span>Chat Kami Sekarang</span>
-          </a>
+          <div className="relative z-10 px-6 py-12 md:p-20">
+            <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 font-serif leading-tight">
+                Siap Wujudkan Visi Anda?
+              </h2>
+              <p className="text-base md:text-xl text-slate-300 leading-relaxed font-light">
+                Apapun kebutuhan ruang Anda, kami punya solusinya.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-12 max-w-5xl mx-auto">
+              {/* Personal / Home */}
+              <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl md:rounded-3xl p-4 md:p-10 transition-all duration-300 text-left flex flex-col h-full">
+                <div className="mb-3 md:mb-6 p-2 md:p-4 bg-orange-500/20 w-fit rounded-xl md:rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-xl md:text-3xl">🏠</span>
+                </div>
+                <h3 className="text-sm md:text-2xl font-bold text-white mb-2 md:mb-3">Personal Home</h3>
+                <p className="text-[10px] md:text-base text-slate-400 mb-4 md:mb-8 min-h-[2.5rem] md:min-h-[3rem] leading-tight md:leading-relaxed">
+                  Konsultasi desain interior gratis untuk hunian impian Anda.
+                </p>
+                <div className="mt-auto">
+                  <a href="https://wa.me/6281234567890" target="_blank" className="inline-flex items-center gap-1 md:gap-2 text-xs md:text-base text-orange-400 font-bold group-hover:translate-x-2 transition-transform">
+                    Chat WA <span>→</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Business / B2B */}
+              <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl md:rounded-3xl p-4 md:p-10 transition-all duration-300 text-left flex flex-col h-full">
+                <div className="mb-3 md:mb-6 p-2 md:p-4 bg-indigo-500/20 w-fit rounded-xl md:rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-xl md:text-3xl">🏢</span>
+                </div>
+                <h3 className="text-sm md:text-2xl font-bold text-white mb-2 md:mb-3">Business Partner</h3>
+                <p className="text-[10px] md:text-base text-slate-400 mb-4 md:mb-8 min-h-[2.5rem] md:min-h-[3rem] leading-tight md:leading-relaxed">
+                  Solusi furnishing untuk kantor, cafe, atau hotel.
+                </p>
+                <div className="mt-auto">
+                  <a href="mailto:partnership@ruangkita.com" className="inline-flex items-center gap-1 md:gap-2 text-xs md:text-base text-indigo-400 font-bold group-hover:translate-x-2 transition-transform">
+                    Email Kami <span>→</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>

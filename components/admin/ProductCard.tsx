@@ -23,14 +23,12 @@ export default function ProductCard({
   // bg-stone-100/50 -> rgba(245, 245, 244, 0.5)
   return (
     <div className="group relative bg-[#f5f5f4]/50 backdrop-blur-sm rounded-3xl overflow-hidden border border-[#e7e5e4]/60 hover:border-orange-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/10 hover:-translate-y-2 flex flex-col h-full">
-      {/* Badge Overlay */}
-      {featured === 1 && (
-        <div className="absolute top-4 left-4 z-20">
-          <span className="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-black/80 text-white rounded-full backdrop-blur-md shadow-lg">
-            Featured
-          </span>
-        </div>
-      )}
+      {/* Badge Overlay: Category */}
+      <div className="absolute top-4 left-4 z-20">
+        <span className="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-black/80 text-white rounded-full backdrop-blur-md shadow-lg">
+          {category || "Uncategorized"}
+        </span>
+      </div>
 
       {/* Image Container */}
       <div className="relative aspect-square bg-[#e7e5e4] overflow-hidden">
@@ -54,28 +52,31 @@ export default function ProductCard({
       </div>
 
       {/* Content */}
-      <div className="p-5 flex flex-col flex-1">
+      <div className="p-3 flex flex-col flex-1">
         <div className="mb-2">
-          <div className="text-[10px] font-bold tracking-widest uppercase text-[#78716c] mb-1">
-            {category || "Uncategorized"}
-          </div>
-          <h3 className="text-lg font-bold text-[#1f2937] leading-tight group-hover:text-orange-600 transition-colors line-clamp-2">
+          {/* Featured Label (Previously Category spot) */}
+          {featured === 1 && (
+            <div className="text-[10px] font-bold tracking-widest uppercase text-orange-600 mb-1">
+              UNGGULAN
+            </div>
+          )}
+          <h3 className="text-sm font-bold text-[#1f2937] leading-tight group-hover:text-orange-600 transition-colors line-clamp-2">
             {name}
           </h3>
         </div>
 
-        <div className="mt-auto flex items-end justify-between border-t border-[#e7e5e4] pt-4">
+        <div className="mt-auto flex items-end justify-between border-t border-[#e7e5e4] pt-3">
           <div className="flex flex-col">
-            <span className="text-xs text-[#a8a29e] font-medium uppercase tracking-wider">Harga</span>
-            <span className="text-xl font-bold text-[#1c1917]">
+            <span className="text-[10px] text-[#a8a29e] font-medium uppercase tracking-wider">Harga</span>
+            <span className="text-sm font-bold text-[#1c1917]">
               Rp {price.toLocaleString("id-ID")}
             </span>
           </div>
 
           {/* Admin Specific Info: Stock */}
           <div className="flex flex-col items-end">
-            <span className="text-xs text-[#a8a29e] font-medium uppercase tracking-wider">Stok</span>
-            <span className={`text-sm font-bold ${stock && stock > 0 ? "text-emerald-600" : "text-red-500"}`}>
+            <span className="text-[10px] text-[#a8a29e] font-medium uppercase tracking-wider">Stok</span>
+            <span className={`text-xs font-bold ${stock && stock > 0 ? "text-emerald-600" : "text-red-500"}`}>
               {stock ?? 0} unit
             </span>
           </div>

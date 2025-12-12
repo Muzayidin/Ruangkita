@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-/* --- VARIABEL UMUM (DEFAULT LIGHT MODE) --- */
+/* --- VARIABLES --- */
 :root {
   /* Latar Belakang: Creamy White (Hangat, Bersih, Premium) */
   --background: #fcfbf9;
-  /* Teks: Deep Charcoal (Kontras tinggi tapi tidak setajam hitam murni) */
-  --foreground: #1f2937;
+  /* Teks: Hampir Hitam (Deepest Charcoal for Contrast) */
+  --foreground: #020617;
   /* Primary: Sage Green (Tenang, Modern, Natural) */
   --primary: #5f8d4e;
   /* Secondary: Soft Gold/Beige (Aksen elegan) */
@@ -30,22 +30,20 @@
 }
 
 /* --- MODE GELAP (DARK MODE) --- */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Latar Belakang: Deep Gunmetal (Elegant Dark) */
-    --background: #111827;
-    /* Teks: Off-White */
-    --foreground: #f3f4f6;
-    /* Primary: Muted Sage (Lebih soft di mata) */
-    --primary: #8abf8a;
-    /* Secondary: Darker Beige */
-    --secondary: #4b5563;
-    /* Accent: Orange Amber */
-    --accent: #f59e0b;
+.dark {
+  /* Latar Belakang: Deep Gunmetal (Elegant Dark) */
+  --background: #111827;
+  /* Teks: Off-White */
+  --foreground: #f3f4f6;
+  /* Primary: Muted Sage (Lebih soft di mata) */
+  --primary: #8abf8a;
+  /* Secondary: Darker Beige */
+  --secondary: #4b5563;
+  /* Accent: Orange Amber */
+  --accent: #f59e0b;
 
-    --muted: #6b7280;
-    --card-bg: #1f2937;
-  }
+  --muted: #6b7280;
+  --card-bg: #1f2937;
 }
 
 /* --- APLIKASI STYLE --- */
@@ -116,4 +114,17 @@ body {
 
 .delay-300 {
   animation-delay: 0.3s;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }

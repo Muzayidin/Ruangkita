@@ -24,6 +24,7 @@ const STORAGE_KEY = "ruangkita-cart-v1";
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [open, setOpen] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Load cart from localStorage
   useEffect(() => {
@@ -35,18 +36,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error) {
       console.error("Gagal memuat keranjang", error);
+    } finally {
+      setIsInitialized(true);
     }
   }, []);
 
   // Save cart to localStorage
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !isInitialized) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch (error) {
       console.error("Gagal menyimpan keranjang", error);
     }
-  }, [items]);
+  }, [items, isInitialized]);
 
   const addToCart = (product: Product) => {
     setItems((prev) => {

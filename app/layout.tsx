@@ -10,20 +10,24 @@ export const metadata: Metadata = {
   description: "Toko furniture minimalis untuk rumah dan bisnis Anda.",
 };
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
-      <body className="bg-gray-100 text-gray-800">
-        <CartProvider>
-          <Navbar />
-          {children}
-          <Footer />
-          <CartSidebar />
-        </CartProvider>
+    <html lang="id" suppressHydrationWarning>
+      <body className="bg-background text-foreground antialiased transition-colors duration-300">
+        <ThemeProvider>
+          <CartProvider>
+            <Navbar />
+            {children}
+            <Footer />
+            <CartSidebar />
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

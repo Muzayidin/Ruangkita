@@ -2,18 +2,20 @@
 
 /* --- VARIABLES --- */
 :root {
-  /* Latar Belakang: Creamy White (Hangat, Bersih, Premium) */
-  --background: #fcfbf9;
-  /* Teks: Hampir Hitam (Deepest Charcoal for Contrast) */
-  --foreground: #020617;
+  /* Latar Belakang: Putih Bersih (Clean White) */
+  --background: #ffffff;
+  /* Teks Utama: Slate 900 (Sangat Gelap untuk Light Mode) */
+  --foreground: #0f172a;
+  /* Teks Muted: Slate 500 (Untuk teks sekunder) */
+  --muted: #64748b;
+
   /* Primary: Sage Green (Tenang, Modern, Natural) */
   --primary: #5f8d4e;
   /* Secondary: Soft Gold/Beige (Aksen elegan) */
   --secondary: #e2d1c3;
   /* Accent: Burnt Orange (Untuk CTA - Call to Action) */
-  --accent: #d97706;
+  --accent: #ea580c;
 
-  --muted: #9ca3af;
   --card-bg: #ffffff;
 }
 
@@ -32,9 +34,12 @@
 /* --- MODE GELAP (DARK MODE) --- */
 .dark {
   /* Latar Belakang: Deep Gunmetal (Elegant Dark) */
-  --background: #111827;
-  /* Teks: Off-White */
-  --foreground: #f3f4f6;
+  --background: #0f172a;
+  /* Teks Utama: Slate 50 (Hampir Putih untuk Dark Mode) */
+  --foreground: #f8fafc;
+  /* Teks Muted: Slate 400 (Lebih terang agar terbaca di dark mode) */
+  --muted: #94a3b8;
+
   /* Primary: Muted Sage (Lebih soft di mata) */
   --primary: #8abf8a;
   /* Secondary: Darker Beige */
@@ -42,8 +47,7 @@
   /* Accent: Orange Amber */
   --accent: #f59e0b;
 
-  --muted: #6b7280;
-  --card-bg: #1f2937;
+  --card-bg: #1e293b;
 }
 
 /* --- APLIKASI STYLE --- */

@@ -42,8 +42,8 @@ export default function ProductsPage() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-6 min-h-screen">
-      <div className="flex flex-row items-center justify-between border-b dark:border-slate-700 pb-2 mb-6">
-        <h1 className="text-xl md:text-3xl font-bold text-slate-900 dark:text-white">
+      <div className="flex flex-row items-center justify-between border-b border-muted/20 pb-2 mb-6">
+        <h1 className="text-xl md:text-3xl font-bold text-foreground">
           Katalog Produk
         </h1>
 
@@ -51,7 +51,7 @@ export default function ProductsPage() {
         <div className="md:hidden relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center gap-2 bg-white border-slate-200 text-slate-800 dark:bg-white/10 dark:text-white dark:border-white/20 backdrop-blur-md text-xs tracking-wide font-normal py-2 pl-4 pr-3 rounded-full border focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm dark:shadow-none"
+            className="flex items-center gap-2 bg-background border-muted/20 text-foreground backdrop-blur-md text-xs tracking-wide font-normal py-2 pl-4 pr-3 rounded-full border focus:outline-none focus:ring-2 focus:ring-accent shadow-sm"
           >
             {selectedCategory || "Semua"}
             <svg
@@ -65,7 +65,7 @@ export default function ProductsPage() {
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden z-50">
+            <div className="absolute right-0 mt-2 w-48 bg-background border border-muted/20 rounded-xl shadow-xl overflow-hidden z-50">
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -74,8 +74,8 @@ export default function ProductsPage() {
                     setIsDropdownOpen(false);
                   }}
                   className={`w-full text-left px-4 py-3 text-sm transition-colors ${(selectedCategory === cat) || (cat === "Semua" && selectedCategory === null)
-                    ? "bg-orange-600 text-white"
-                    : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700"
+                    ? "bg-accent text-white"
+                    : "text-foreground hover:bg-muted/10"
                     }`}
                 >
                   {cat}
@@ -94,8 +94,8 @@ export default function ProductsPage() {
               key={cat}
               onClick={() => setSelectedCategory(cat === "Semua" ? null : cat)}
               className={`px-1 py-1 text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0 relative ${(selectedCategory === cat) || (cat === "Semua" && selectedCategory === null)
-                ? "text-orange-600 border-b-2 border-orange-600"
-                : "text-slate-700 hover:text-orange-600 dark:text-slate-400"
+                ? "text-accent border-b-2 border-accent"
+                : "text-muted hover:text-accent"
                 }`}
             >
               {cat}
@@ -106,7 +106,7 @@ export default function ProductsPage() {
 
       {loading ? (
         <div className="text-center py-10">
-          <p className="text-lg text-indigo-600">Memuat produk...</p>
+          <p className="text-lg text-accent">Memuat produk...</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -118,20 +118,20 @@ export default function ProductsPage() {
 
       {filteredProducts.length === 0 && !loading && products.length > 0 && (
         <div className="text-center py-10">
-          <p className="text-lg text-slate-500">Tidak ada produk di kategori ini.</p>
+          <p className="text-lg text-muted">Tidak ada produk di kategori ini.</p>
         </div>
       )}
 
       {products.length === 0 && !loading && (
         <div className="text-center py-10">
-          <p className="text-xl text-gray-500">
+          <p className="text-xl text-muted">
             Belum ada produk yang ditemukan di database.
           </p>
-          <p className="text-sm text-gray-400 mt-2">
+          <p className="text-sm text-muted/80 mt-2">
             Coba tambahkan produk melalui halaman{" "}
             <a
               href="/admin/add-product"
-              className="text-indigo-500 hover:underline"
+              className="text-accent hover:underline"
             >
               Admin
             </a>

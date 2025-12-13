@@ -16,7 +16,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
 
   return (
     <button
-      className="w-full py-4 text-lg bg-orange-600 text-white font-bold rounded-full shadow-xl hover:bg-orange-500 hover:shadow-orange-500/30 transition-all duration-300 transform hover:scale-[1.02]"
+      className="w-full py-4 text-lg bg-accent text-white font-bold rounded-full shadow-xl hover:bg-accent/90 hover:shadow-accent/30 transition-all duration-300 transform hover:scale-[1.02]"
       onClick={handleAddToCart}
     >
       Tambah ke Keranjang

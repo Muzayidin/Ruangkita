@@ -37,23 +37,23 @@ export function CartSidebar() {
 
       {/* Sidebar Panel */}
       <aside
-        className={`fixed inset-y-0 right-0 z-[100] w-full max-w-sm bg-[#f2f0e9]/95 dark:bg-[#0f1115]/95 backdrop-blur-xl shadow-2xl transform transition-transform duration-500 ease-in-out border-l border-white/20 ${open ? "translate-x-0" : "translate-x-full"
+        className={`fixed inset-y-0 right-0 z-[100] w-full max-w-sm bg-background/95 backdrop-blur-xl shadow-2xl transform transition-transform duration-500 ease-in-out border-l border-white/20 ${open ? "translate-x-0" : "translate-x-full"
           }`}
       >
-        <div className="flex flex-col h-full bg-stone-50/50 dark:bg-black/20">
+        <div className="flex flex-col h-full bg-background/50">
           {/* Header */}
-          <div className="flex justify-between items-center p-6 border-b border-stone-200 dark:border-slate-800">
+          <div className="flex justify-between items-center p-6 border-b border-muted/20">
             <div>
-              <h3 className="text-xl font-bold font-serif text-slate-800 dark:text-slate-100">
+              <h3 className="text-xl font-bold font-serif text-foreground">
                 Keranjang
               </h3>
-              <p className="text-xs text-stone-500 font-medium tracking-wide uppercase mt-1">
+              <p className="text-xs text-muted font-medium tracking-wide uppercase mt-1">
                 {items.length} Item Dipilih
               </p>
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="p-2 rounded-full hover:bg-stone-200 dark:hover:bg-slate-800 transition-colors"
+              className="p-2 rounded-full hover:bg-muted/10 transition-colors"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -77,12 +77,12 @@ export function CartSidebar() {
             {items.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-60">
                 <span className="text-6xl">🛍️</span>
-                <p className="text-stone-500 font-medium">
+                <p className="text-muted font-medium">
                   Keranjang masih kosong.
                 </p>
                 <button
                   onClick={() => setOpen(false)}
-                  className="px-6 py-2 bg-stone-200 rounded-full text-sm font-bold hover:bg-stone-300 transition"
+                  className="px-6 py-2 bg-muted/20 rounded-full text-sm font-bold hover:bg-muted/30 transition"
                 >
                   Mulai Belanja
                 </button>
@@ -94,7 +94,7 @@ export function CartSidebar() {
                   className="flex gap-4 items-start animate-fade-in"
                 >
                   {/* Image Thumbnail */}
-                  <div className="w-20 h-20 bg-stone-200 rounded-xl overflow-hidden relative flex-shrink-0 border border-stone-200 dark:border-slate-700">
+                  <div className="w-20 h-20 bg-muted/20 rounded-xl overflow-hidden relative flex-shrink-0 border border-muted/20">
                     {/* Note: We use img tag here for simplicity if Next Image is complex in context, but better to use Next Image if possible. 
                         Since cart items might not have loaded image props perfectly, we fallback. */}
                     {item.product.imageUrl ? (
@@ -109,18 +109,18 @@ export function CartSidebar() {
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight mb-1 truncate">
+                    <h4 className="text-sm font-bold text-foreground leading-tight mb-1 truncate">
                       {item.product.name}
                     </h4>
-                    <p className="text-xs text-stone-500 mb-3">
+                    <p className="text-xs text-muted mb-3">
                       {item.product.category}
                     </p>
 
                     <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-3 bg-white dark:bg-slate-800 rounded-full px-2 py-1 shadow-sm border border-stone-100 dark:border-slate-700">
+                      <div className="flex items-center gap-3 bg-card rounded-full px-2 py-1 shadow-sm border border-muted/20">
                         <button
                           onClick={() => decrementItem(item.product.id)}
-                          className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-stone-100 dark:hover:bg-slate-700 text-stone-600 transition"
+                          className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-muted/10 text-muted transition"
                         >
                           -
                         </button>
@@ -129,14 +129,14 @@ export function CartSidebar() {
                         </span>
                         <button
                           onClick={() => addToCart(item.product)}
-                          className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-stone-100 dark:hover:bg-slate-700 text-stone-600 transition"
+                          className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-muted/10 text-muted transition"
                         >
                           +
                         </button>
                       </div>
 
                       <div className="text-right">
-                        <div className="text-sm font-bold text-slate-900 dark:text-white">
+                        <div className="text-sm font-bold text-foreground">
                           Rp {(item.product.price * item.qty).toLocaleString("id-ID")}
                         </div>
                       </div>
@@ -148,17 +148,17 @@ export function CartSidebar() {
           </div>
 
           {/* Footer */}
-          <div className="p-6 bg-white/50 dark:bg-black/50 backdrop-blur-md border-t border-stone-200 dark:border-slate-800 space-y-4">
+          <div className="p-6 bg-card/50 backdrop-blur-md border-t border-muted/20 space-y-4">
             <div className="flex justify-between items-end">
-              <span className="text-sm font-medium text-stone-500 uppercase tracking-wider">
+              <span className="text-sm font-medium text-muted uppercase tracking-wider">
                 Total Estimasi
               </span>
-              <span className="text-2xl font-black text-slate-900 dark:text-white">
+              <span className="text-2xl font-black text-foreground">
                 Rp {total.toLocaleString("id-ID")}
               </span>
             </div>
 
-            <p className="text-xs text-stone-400 text-center">
+            <p className="text-xs text-muted text-center">
               *Harga belum termasuk ongkir. Checkout via WhatsApp untuk konfirmasi.
             </p>
 
@@ -167,8 +167,8 @@ export function CartSidebar() {
               target="_blank"
               onClick={() => items.length === 0 && setOpen(false)} // Prevent click if empty, just close
               className={`block w-full py-4 rounded-xl font-bold text-center text-lg shadow-xl transition-all transform hover:-translate-y-1 ${items.length === 0
-                  ? "bg-stone-300 text-stone-500 cursor-not-allowed pointer-events-none"
-                  : "bg-green-600 hover:bg-green-500 text-white shadow-green-600/20"
+                ? "bg-muted text-muted-foreground cursor-not-allowed pointer-events-none"
+                : "bg-green-600 hover:bg-green-500 text-white shadow-green-600/20"
                 }`}
             >
               Checkout WhatsApp

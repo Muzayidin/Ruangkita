@@ -59,15 +59,15 @@ const BLOG_POSTS = [
 
 export default function BlogPage() {
     return (
-        <main className="min-h-screen bg-[#f2f0e9] dark:bg-[#0f1115] pt-24 pb-12">
+        <main className="min-h-screen bg-background pt-24 pb-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Header */}
                 <section className="text-center mb-16">
-                    <h1 className="text-4xl md:text-7xl font-black font-serif text-slate-900 dark:text-white mb-6 tracking-tight">
-                        Jurnal <span className="text-orange-600">Estetika</span>
+                    <h1 className="text-4xl md:text-7xl font-black font-serif text-foreground mb-6 tracking-tight">
+                        Jurnal <span className="text-accent">Estetika</span>
                     </h1>
-                    <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+                    <p className="text-lg md:text-xl text-muted max-w-2xl mx-auto font-light leading-relaxed">
                         Temukan inspirasi, tips, dan wawasan terbaru seputar dunia interior dan furniture.
                     </p>
                 </section>
@@ -75,25 +75,25 @@ export default function BlogPage() {
                 {/* Blog Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {BLOG_POSTS.map((post) => (
-                        <article key={post.id} className="group flex flex-col bg-white dark:bg-white/5 rounded-[2rem] p-6 shadow-sm border border-slate-100 dark:border-white/10 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                            <div className="mb-6 aspect-video bg-slate-200 rounded-2xl overflow-hidden relative">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-slate-200 to-slate-100 flex items-center justify-center text-4xl grayscale group-hover:grayscale-0 transition-all duration-500">
+                        <article key={post.id} className="group flex flex-col bg-card rounded-[2rem] p-6 shadow-sm border border-muted/20 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                            <div className="mb-6 aspect-video bg-muted/20 rounded-2xl overflow-hidden relative">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-muted/20 to-muted/10 flex items-center justify-center text-4xl grayscale group-hover:grayscale-0 transition-all duration-500">
                                     📰
                                 </div>
                             </div>
                             <div className="flex items-center gap-3 mb-4 text-xs font-bold uppercase tracking-wider">
                                 <span className={`px-3 py-1 rounded-full ${post.color}`}>{post.category}</span>
-                                <span className="text-slate-400">{post.date}</span>
+                                <span className="text-muted">{post.date}</span>
                             </div>
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-3 line-clamp-2 font-serif group-hover:text-orange-600 transition-colors">
-                                <Link href="#" className="hover:underline decoration-2 decoration-orange-600/30 underline-offset-4">
+                            <h2 className="text-xl font-bold text-foreground mb-3 line-clamp-2 font-serif group-hover:text-accent transition-colors">
+                                <Link href="#" className="hover:underline decoration-2 decoration-accent/30 underline-offset-4">
                                     {post.title}
                                 </Link>
                             </h2>
-                            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                            <p className="text-muted text-sm leading-relaxed mb-6 flex-grow">
                                 {post.excerpt}
                             </p>
-                            <Link href="#" className="inline-flex items-center text-sm font-bold text-slate-900 dark:text-white hover:text-orange-600 transition-colors gap-2 mt-auto">
+                            <Link href="#" className="inline-flex items-center text-sm font-bold text-foreground hover:text-accent transition-colors gap-2 mt-auto">
                                 Baca Selengkapnya <span>→</span>
                             </Link>
                         </article>

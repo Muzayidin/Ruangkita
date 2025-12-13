@@ -9,7 +9,7 @@ export default async function Home() {
   const featuredProducts: Product[] = getFeaturedProducts();
 
   return (
-    <main className="min-h-screen bg-[#f2f0e9] dark:bg-[#0f1115]">
+    <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-[65vh] md:h-[85vh] flex items-center justify-center overflow-hidden bg-slate-900 rounded-b-[2rem] md:rounded-b-[3rem] shadow-2xl mx-0 sm:mx-4 mt-0 sm:mt-2">
         {/* Background Image with Overlay */}
@@ -60,12 +60,12 @@ export default async function Home() {
               { title: "Kualitas Terbaik", desc: "Material pilihan yang tahan lama dan kokoh.", icon: "💎" },
               { title: "Gratis Ongkir", desc: "Untuk wilayah Jawa Timur dengan minimal belanja.", icon: "🚚" },
             ].map((feature, i) => (
-              <div key={i} className="group p-3 md:p-10 rounded-2xl md:rounded-3xl bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/50 dark:border-white/10 hover:bg-white/70 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 shadow-md shadow-slate-200/50 dark:shadow-none flex flex-col items-center text-center">
+              <div key={i} className="group p-3 md:p-10 rounded-2xl md:rounded-3xl bg-card/60 backdrop-blur-xl border border-white/50 dark:border-white/10 hover:bg-card/70 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 shadow-md shadow-muted/50 dark:shadow-none flex flex-col items-center text-center">
                 <div className="text-2xl md:text-5xl mb-3 md:mb-6 group-hover:scale-105 transition-transform duration-300 drop-shadow-sm p-2 md:p-4 bg-white/50 rounded-full">
                   {feature.icon}
                 </div>
-                <h3 className="text-xs md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-1 md:mb-3 font-serif tracking-tight">{feature.title}</h3>
-                <p className="text-[10px] md:text-base text-stone-600 dark:text-stone-400 leading-tight md:leading-relaxed font-medium">{feature.desc}</p>
+                <h3 className="text-xs md:text-xl font-bold text-foreground mb-1 md:mb-3 font-serif tracking-tight">{feature.title}</h3>
+                <p className="text-[10px] md:text-base text-muted leading-tight md:leading-relaxed font-medium">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -73,16 +73,16 @@ export default async function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-12 md:py-24 bg-stone-200/30 dark:bg-black/20 rounded-t-[2rem] md:rounded-t-[3rem]">
+      <section className="py-12 md:py-24 bg-muted/10 rounded-t-[2rem] md:rounded-t-[3rem]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-row justify-between items-end mb-8 md:mb-16 gap-4">
             <div>
               <span className="text-orange-600 font-bold tracking-widest uppercase text-xs md:text-sm mb-2 block">Katalog Pilihan</span>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-800 dark:text-slate-100 font-serif">Koleksi Terpopuler</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-foreground font-serif">Koleksi Terpopuler</h2>
             </div>
             <Link
               href="/products"
-              className="group flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold hover:text-orange-600 transition-colors bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full hover:bg-white shadow-sm text-sm md:text-base whitespace-nowrap"
+              className="group flex items-center gap-2 text-muted font-semibold hover:text-accent transition-colors bg-card/50 px-4 py-2 md:px-6 md:py-3 rounded-full hover:bg-card shadow-sm text-sm md:text-base whitespace-nowrap"
             >
               <span className="hidden md:inline">Lihat Semua</span>
               <span className="md:hidden">Semua</span>

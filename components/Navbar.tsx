@@ -5,13 +5,19 @@ import { useCart } from "./CartProvider";
 import { useState, useEffect } from "react";
 import { useTheme } from "./ThemeProvider";
 
+import { usePathname } from "next/navigation";
+
 export function Navbar() {
   const { items, setOpen } = useCart();
   const { theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   const count = items.reduce((acc, it) => acc + it.qty, 0);
+
+  // Check if we are on the products/catalog page
+  const isProductsPage = pathname?.includes("/products");
 
   // Effect untuk mendeteksi scroll agar navbar berubah style
   useEffect(() => {
@@ -28,14 +34,18 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "glass-effect shadow-sm" : "bg-transparent"
+      className={`sticky top-0 z-50 transition-all duration-300 ${isProductsPage
+        ? "bg-background shadow-sm" // Always solid on products page
+        : scrolled
+          ? "glass-effect shadow-sm"
+          : "bg-transparent"
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 md:h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <span className={`text-2xl font-bold tracking-tighter transition-colors ${scrolled ? "text-slate-900" : "text-foreground"}`}>
+            <span className={`text-2xl font-bold tracking-tighter transition-colors ${isProductsPage || !scrolled ? "text-foreground" : "text-slate-900"}`}>
               Ruang<span className="text-accent">Kita</span>
             </span>
           </Link>
@@ -52,9 +62,9 @@ export function Navbar() {
                 <Link
                   key={idx}
                   href={href}
-                  className={`text-sm font-medium transition-colors ${scrolled
-                    ? "text-slate-900 hover:text-accent"
-                    : "text-foreground hover:text-accent"
+                  className={`text-sm font-medium transition-colors ${isProductsPage || !scrolled
+                    ? "text-foreground hover:text-accent"
+                    : "text-slate-900 hover:text-accent"
                     }`}
                 >
                   {item}
@@ -68,26 +78,25 @@ export function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className={`p-2 rounded-full hover:bg-muted/10 transition-colors ${scrolled ? "text-slate-900" : "text-foreground"}`}
+              className={`!hidden md:!block p-2 rounded-full hover:bg-muted/10 transition-colors ${isProductsPage || !scrolled ? "text-foreground" : "text-slate-900"}`}
               aria-label="Toggle Theme"
             >
               {theme === "dark" ? (
                 // Sun Icon (for Dark Mode - click to switch to light)
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${scrolled ? "text-yellow-500" : "text-yellow-400"}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${isProductsPage || !scrolled ? "text-yellow-400" : "text-yellow-500"}`}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
                 </svg>
               ) : (
                 // Moon Icon (for Light Mode - click to switch to dark)
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${scrolled ? "text-slate-900" : "text-foreground"}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${isProductsPage || !scrolled ? "text-foreground" : "text-slate-900"}`}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
                 </svg>
               )}
             </button>
 
-            {/* Cart Button */}
             <button
               onClick={() => setOpen(true)}
-              className={`relative p-2 rounded-full hover:bg-muted/10 transition-colors group ${scrolled ? "text-slate-900" : "text-foreground"}`}
+              className={`relative p-2 rounded-full hover:bg-muted/10 transition-colors group ${isProductsPage || !scrolled ? "text-foreground" : "text-slate-900"}`}
               aria-label={`Cart with ${count} items`}
             >
               <svg
@@ -96,7 +105,7 @@ export function Navbar() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className={`w-6 h-6 group-hover:scale-110 transition-transform ${scrolled ? "text-slate-900" : "text-foreground"}`}
+                className={`w-6 h-6 group-hover:scale-110 transition-transform ${isProductsPage || !scrolled ? "text-foreground" : "text-slate-900"}`}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
@@ -110,7 +119,7 @@ export function Navbar() {
             {/* Hamburger Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`md:hidden p-2 rounded-md hover:bg-muted/10 transition-colors ${scrolled ? "text-slate-900" : "text-foreground"}`}
+              className={`md:hidden p-2 rounded-md hover:bg-muted/10 transition-colors ${isProductsPage || !scrolled ? "text-foreground" : "text-slate-900"}`}
             >
               <span className="sr-only">Open menu</span>
               {isMenuOpen ? (
@@ -150,6 +159,30 @@ export function Navbar() {
               </Link>
             )
           })}
+
+          <button
+            onClick={() => {
+              setTheme(theme === "dark" ? "light" : "dark");
+              setIsMenuOpen(false);
+            }}
+            className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-accent hover:bg-accent/10"
+          >
+            {theme === "dark" ? (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-yellow-500">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                </svg>
+                <span>Mode Terang</span>
+              </>
+            ) : (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-foreground">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                </svg>
+                <span>Mode Gelap</span>
+              </>
+            )}
+          </button>
         </nav>
       </div>
     </header >

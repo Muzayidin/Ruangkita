@@ -148,7 +148,7 @@ export default function ProductsPage() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-6 min-h-screen">
-      <div className="sticky top-14 md:top-16 z-40 bg-background/95 backdrop-blur-sm -mx-4 px-4 pb-2 transition-all">
+      <div className="sticky top-12 md:top-16 z-40 bg-background/95 backdrop-blur-sm -mx-4 px-4 pb-2 transition-all">
         <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-muted/20 pb-1 mb-1 pt-1 md:pb-4 md:mb-6 md:pt-4 gap-1 md:gap-4">
           <div className="hidden md:block">
             <h1 className="text-base md:text-3xl font-bold text-foreground">
@@ -186,7 +186,7 @@ export default function ProductsPage() {
               </button>
             </div>
 
-            <div className={`flex flex-row gap-3 transition-all duration-300 ease-in-out ${isScrolled ? "max-h-0 opacity-0 overflow-hidden md:max-h-20 md:opacity-100 md:overflow-visible" : "max-h-20 opacity-100"}`}>
+            <div className={`flex flex-row gap-3 ${isScrolled ? "max-h-0 opacity-0 overflow-hidden md:max-h-20 md:opacity-100 md:overflow-visible" : "max-h-20 opacity-100"}`}>
               {/* Category Dropdown (All Screens) */}
               <div className="relative z-50 flex-1 md:flex-none">
                 <button
@@ -285,7 +285,7 @@ export default function ProductsPage() {
           <p className="text-muted mb-4">Anda sudah mencapai akhir.</p>
           <p className="text-sm text-muted mb-6">Tidak menemukan produk yang dicari?</p>
           <a
-            href="https://wa.me/6281234567890?text=Halo%20Admin,%20saya%20tertarik%20untuk%20custom%20order"
+            href="https://wa.me/6281932708104?text=Halo%20Admin,%20saya%20tertarik%20untuk%20custom%20order"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-green-700 transition-colors shadow-sm hover:shadow-md"
@@ -303,7 +303,7 @@ export default function ProductsPage() {
           <div className="text-4xl mb-4">📦</div>
           <p className="text-xl text-muted mb-6">Produk tidak tersedia</p>
           <a
-            href="https://wa.me/6281234567890?text=Halo%20Admin,%20saya%20tertarik%20untuk%20custom%20order"
+            href="https://wa.me/6281932708104?text=Halo%20Admin,%20saya%20tertarik%20untuk%20custom%20order"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-full font-medium hover:bg-green-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"

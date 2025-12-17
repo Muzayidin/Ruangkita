@@ -6,7 +6,7 @@ export function CartSidebar() {
   const { items, addToCart, decrementItem, removeItem, total, open, setOpen } =
     useCart();
 
-  const waNumber = "6289512345678"; // Ganti dengan nomor Admin
+  const waNumber = "6281932708104"; // Ganti dengan nomor Admin
 
   const messageLines = items.map(
     (item, index) =>

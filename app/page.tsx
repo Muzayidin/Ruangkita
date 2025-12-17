@@ -129,7 +129,7 @@ export default async function Home() {
                   Konsultasi desain interior gratis untuk hunian impian Anda.
                 </p>
                 <div className="mt-auto">
-                  <a href="https://wa.me/6281234567890" target="_blank" className="inline-flex items-center gap-1 md:gap-2 text-xs md:text-base text-orange-400 font-bold group-hover:translate-x-2 transition-transform">
+                  <a href="https://wa.me/6281932708104" target="_blank" className="inline-flex items-center gap-1 md:gap-2 text-xs md:text-base text-orange-400 font-bold group-hover:translate-x-2 transition-transform">
                     Chat WA <span>→</span>
                   </a>
                 </div>

@@ -43,10 +43,10 @@ export function Navbar() {
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 md:h-16">
+        <div className="flex items-center justify-between h-12 md:h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <span className={`text-2xl font-bold tracking-tighter transition-colors ${isProductsPage || !scrolled ? "text-foreground" : "text-slate-900"}`}>
+            <span className={`text-xl md:text-2xl font-bold tracking-tighter transition-colors ${isProductsPage || !scrolled ? "text-foreground" : "text-slate-900"}`}>
               Ruang<span className="text-accent">Kita</span>
             </span>
           </Link>
@@ -184,7 +184,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden absolute top-16 left-0 w-full bg-background/95 backdrop-blur-xl border-b border-muted/20 transition-all duration-300 ease-in-out origin-top ${isMenuOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
+        className={`md:hidden absolute top-12 left-0 w-full bg-background/95 backdrop-blur-xl border-b border-muted/20 transition-all duration-300 ease-in-out origin-top ${isMenuOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
           }`}
       >
         <nav className="px-4 pt-2 pb-6 space-y-2">

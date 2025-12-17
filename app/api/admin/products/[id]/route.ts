@@ -112,16 +112,21 @@ export async function PUT(
 
   const stockNumber = stockStr === "" ? null : Number(stockStr) || 0;
   const featuredNumber = featuredStr === "" ? null : Number(featuredStr) || 0;
+  const soldCountStr = formData.get("soldCount")?.toString() ?? existing.soldCount?.toString() ?? "";
+  const soldCountNumber = soldCountStr === "" ? 0 : Number(soldCountStr) || 0;
+
+  const originalPriceStr = formData.get("originalPrice")?.toString() ?? existing.originalPrice?.toString() ?? "";
+  const originalPriceNumber = originalPriceStr === "" ? null : Number(originalPriceStr);
 
   const slug =
     slugRaw && slugRaw.length > 0
       ? slugRaw
       : existing.slug ||
-        name
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "");
+      name
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
 
   try {
     const updated = await prisma.products.update({
@@ -135,13 +140,15 @@ export async function PUT(
         imageUrl: newImageUrl,
         stock: stockNumber,
         featured: featuredNumber,
+        soldCount: soldCountNumber,
+        originalPrice: originalPriceNumber,
       },
     });
 
     return NextResponse.json(updated);
   } catch (err) {
     console.error("Error updating product:", err);
-    return new NextResponse("Failed to update product", {
+    return new NextResponse("Failed to update product: " + (err instanceof Error ? err.message : String(err)), {
       status: 500,
     });
   }

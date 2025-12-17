@@ -94,6 +94,11 @@ export async function POST(req: NextRequest) {
 
   const stockNumber = stockStr === "" ? 0 : Number(stockStr) || 0;
   const featuredNumber = featuredStr === "" ? 0 : Number(featuredStr) || 0;
+  const soldCountStr = formData.get("soldCount")?.toString() ?? "";
+  const soldCountNumber = soldCountStr === "" ? 0 : Number(soldCountStr) || 0;
+
+  const originalPriceStr = formData.get("originalPrice")?.toString() ?? "";
+  const originalPriceNumber = originalPriceStr === "" ? null : Number(originalPriceStr);
 
   try {
     const product = await prisma.products.create({
@@ -107,6 +112,8 @@ export async function POST(req: NextRequest) {
         imageUrl: finalImageUrl,
         stock: stockNumber,
         featured: featuredNumber,
+        soldCount: soldCountNumber,
+        originalPrice: originalPriceNumber,
       },
     });
 

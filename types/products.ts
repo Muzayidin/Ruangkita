@@ -8,6 +8,9 @@ export type Product = {
   description: string;
   imageUrl: string; // URL gambar dari database
   featured: 0 | 1; // Dari database, 1 atau 0
+  soldCount?: number;
+  createdAt?: Date | string;
+  originalPrice?: number;
 };
 
 // Tipe yang lebih ringan untuk dropdown admin atau tampilan ringkas

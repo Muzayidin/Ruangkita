@@ -3,10 +3,19 @@ import { NextResponse } from "next/server";
 import { getAllProducts, addProduct } from "@/database/db-helper";
 
 // Handler GET untuk mengambil daftar semua produk
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // Memanggil helper database untuk mendapatkan semua produk
-    const products = await getAllProducts();
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "20");
+    const offset = (page - 1) * limit;
+
+    const category = searchParams.get("category") || undefined;
+    const search = searchParams.get("search") || undefined;
+    const sortBy = searchParams.get("sortBy") || "newest";
+
+    // Memanggil helper database untuk mendapatkan semua produk dengan pagination
+    const products = await getAllProducts(limit, offset, { category, search, sortBy });
     return NextResponse.json(products);
   } catch (error) {
     console.error("Gagal mengambil data produk:", error);

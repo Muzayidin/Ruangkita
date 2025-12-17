@@ -90,7 +90,7 @@ export default async function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
             {featuredProducts.map((product, idx) => (
               <div key={product.id} style={{ animationDelay: `${idx * 100}ms` }} className="animate-fade-in opacity-0 fill-mode-forwards h-full">
                 <ProductCard product={product} />
@@ -118,6 +118,7 @@ export default async function Home() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-12 max-w-5xl mx-auto">
+              {/* Personal / Home */}
               {/* Personal / Home */}
               <div className="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl md:rounded-3xl p-4 md:p-10 transition-all duration-300 text-left flex flex-col h-full">
                 <div className="mb-3 md:mb-6 p-2 md:p-4 bg-orange-500/20 w-fit rounded-xl md:rounded-2xl group-hover:scale-110 transition-transform duration-300">

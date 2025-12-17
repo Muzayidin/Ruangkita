@@ -2,9 +2,9 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import ProductCard from "@/components/admin/ProductCard";
 import AdminShell from "../AdminShell";
 import { adminTheme as t } from "../adminTheme";
+import AdminProductList from "@/components/admin/AdminProductList";
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -83,47 +83,8 @@ export default async function AdminProductsPage() {
         </div>
       </div>
 
-      {/* Product Grid */}
-      {products.length === 0 ? (
-        <div
-          style={{
-            background: t.surface,
-            borderRadius: t.radiusLg,
-            border: `1px solid ${t.border}`,
-            padding: 48,
-            textAlign: "center",
-            color: t.textSoft,
-            fontSize: 16
-          }}
-        >
-          Belum ada produk. Mulai dengan menambahkan produk pertama.
-        </div>
-      ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-            gap: 12,
-          }}
-        >
-          {products.map((p) => (
-            <Link
-              key={p.id}
-              href={`/admin/products/${p.id}`}
-              style={{ textDecoration: "none", color: "inherit", display: 'block' }}
-            >
-              <ProductCard
-                name={p.name}
-                price={p.price}
-                imageUrl={p.imageUrl}
-                category={p.category}
-                featured={p.featured}
-                stock={p.stock}
-              />
-            </Link>
-          ))}
-        </div>
-      )}
+      {/* Product Grid with Search - via Client Component */}
+      <AdminProductList initialProducts={products} />
     </AdminShell>
   );
 }

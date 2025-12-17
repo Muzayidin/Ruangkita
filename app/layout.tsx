@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { CartProvider } from "@/components/CartProvider";
 import { Navbar } from "@/components/Navbar";
 import { CartSidebar } from "@/components/CartSidebar";
-import { Footer } from "@/components/Footer";
+import { FooterWrapper } from "@/components/FooterWrapper";
 
 export const metadata: Metadata = {
   title: "RuangKita - Toko Furniture Modern",
@@ -24,7 +24,7 @@ export default function RootLayout({
           <CartProvider>
             <Navbar />
             {children}
-            <Footer />
+            <FooterWrapper />
             <CartSidebar />
           </CartProvider>
         </ThemeProvider>

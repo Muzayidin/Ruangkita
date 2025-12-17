@@ -5,7 +5,7 @@ import { useCart } from "./CartProvider";
 import { useState, useEffect } from "react";
 import { useTheme } from "./ThemeProvider";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export function Navbar() {
   const { items, setOpen } = useCart();
@@ -13,6 +13,7 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const count = items.reduce((acc, it) => acc + it.qty, 0);
 
@@ -58,20 +59,65 @@ export function Navbar() {
               if (item === "Tentang Kami") href = "/about";
               if (item === "Blog") href = "/blog";
 
+              const isActive = href === "/" ? pathname === "/" : pathname?.startsWith(href);
+
               return (
                 <Link
                   key={idx}
                   href={href}
-                  className={`text-sm font-medium transition-colors ${isProductsPage || !scrolled
-                    ? "text-foreground hover:text-accent"
-                    : "text-slate-900 hover:text-accent"
+                  className={`text-sm font-medium transition-colors relative group ${isActive
+                    ? "text-accent font-bold"
+                    : (isProductsPage || !scrolled ? "text-foreground hover:text-accent" : "text-slate-900 hover:text-accent")
                     }`}
                 >
                   {item}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-accent rounded-full"></span>
+                  )}
                 </Link>
               );
             })}
           </nav>
+
+          {/* Search Bar - Desktop */}
+          {!isProductsPage && (
+            <div className="flex flex-1 max-w-xs mx-2 md:mx-4">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const form = e.target as HTMLFormElement;
+                  const input = form.querySelector("input") as HTMLInputElement;
+                  if (input.value.trim()) {
+                    router.push(`/search?q=${encodeURIComponent(input.value)}`);
+                  }
+                }}
+                className="w-full relative group"
+              >
+                <input
+                  type="text"
+                  placeholder="Cari produk & artikel..."
+                  className={`w-full py-2 pl-4 pr-10 text-sm rounded-full border transition-all focus:ring-1 focus:ring-accent focus:outline-none ${!scrolled
+                    ? "bg-background/80 border-muted/20 text-foreground placeholder:text-muted"
+                    : "bg-white/80 border-slate-200 text-slate-900 placeholder:text-slate-400"
+                    }`}
+                />
+                <button
+                  type="submit"
+                  className="absolute right-0 top-0 bottom-0 px-3 flex items-center justify-center focus:outline-none focus:ring-1 focus:ring-accent rounded-r-full"
+                  title="Cari"
+                >
+                  <svg
+                    className={`h-4 w-4 transition-colors ${!scrolled ? "text-muted group-hover:text-accent" : "text-slate-400 group-hover:text-accent"}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex items-center gap-4">
@@ -148,11 +194,16 @@ export function Navbar() {
             if (item === "Tentang Kami") href = "/about";
             if (item === "Blog") href = "/blog";
 
+            const isActive = href === "/" ? pathname === "/" : pathname?.startsWith(href);
+
             return (
               <Link
                 key={item}
                 href={href}
-                className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-accent hover:bg-accent/10"
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-all ${isActive
+                  ? "text-accent bg-accent/10 border-l-4 border-accent pl-2"
+                  : "text-foreground hover:text-accent hover:bg-accent/10"
+                  }`}
                 onClick={handleLinkClick}
               >
                 {item}

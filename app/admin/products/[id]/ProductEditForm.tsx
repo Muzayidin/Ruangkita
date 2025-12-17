@@ -16,6 +16,8 @@ type Product = {
   imageUrl: string | null;
   stock: number | null;
   featured: number | null;
+  soldCount: number | null;
+  originalPrice: number | null;
 };
 
 export default function ProductEditForm({ product }: { product: Product }) {
@@ -29,6 +31,10 @@ export default function ProductEditForm({ product }: { product: Product }) {
     category: product.category ?? "",
     description: product.description ?? "",
     price: String(product.price),
+    originalPrice:
+      product.originalPrice === null || product.originalPrice === undefined
+        ? ""
+        : String(product.originalPrice),
     stock:
       product.stock === null || product.stock === undefined
         ? ""
@@ -38,6 +44,10 @@ export default function ProductEditForm({ product }: { product: Product }) {
       product.featured === null || product.featured === undefined
         ? ""
         : String(product.featured),
+    soldCount:
+      product.soldCount === null || product.soldCount === undefined
+        ? ""
+        : String(product.soldCount),
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -89,9 +99,11 @@ export default function ProductEditForm({ product }: { product: Product }) {
       fd.append("category", form.category);
       fd.append("description", form.description);
       fd.append("price", form.price);
+      fd.append("originalPrice", form.originalPrice);
       fd.append("stock", form.stock);
       fd.append("imageUrl", form.imageUrl);
       fd.append("featured", form.featured);
+      fd.append("soldCount", form.soldCount);
 
       if (imageFile) {
         fd.append("image", imageFile);
@@ -318,7 +330,7 @@ export default function ProductEditForm({ product }: { product: Product }) {
         />
       </div>
 
-      {/* Harga & Stok */}
+      {/* Harga, Stok, & Terjual */}
       <div style={{ display: "flex", gap: 12 }}>
         <div
           style={{
@@ -329,7 +341,33 @@ export default function ProductEditForm({ product }: { product: Product }) {
           }}
         >
           <label style={{ fontSize: 13, fontWeight: 500, color: t.textSoft }}>
-            Harga (Rp)
+            Harga Coret (Opsional)
+          </label>
+          <input
+            type="number"
+            name="originalPrice"
+            value={form.originalPrice}
+            onChange={handleChange}
+            placeholder="Misal: 100000"
+            style={{
+              borderRadius: t.radiusMd,
+              border: `1px solid ${t.border}`,
+              padding: "9px 13px",
+              fontSize: 15,
+              color: t.textMuted,
+            }}
+          />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+          }}
+        >
+          <label style={{ fontSize: 13, fontWeight: 500, color: t.textSoft }}>
+            Harga Jual (Rp)
           </label>
           <input
             type="number"
@@ -362,6 +400,32 @@ export default function ProductEditForm({ product }: { product: Product }) {
             name="stock"
             value={form.stock}
             onChange={handleChange}
+            style={{
+              borderRadius: t.radiusMd,
+              border: `1px solid ${t.border}`,
+              padding: "9px 13px",
+              fontSize: 15,
+              color: t.textMuted,
+            }}
+          />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+          }}
+        >
+          <label style={{ fontSize: 13, fontWeight: 500, color: t.textSoft }}>
+            Terjual
+          </label>
+          <input
+            type="number"
+            name="soldCount"
+            value={form.soldCount}
+            onChange={handleChange}
+            placeholder="0"
             style={{
               borderRadius: t.radiusMd,
               border: `1px solid ${t.border}`,

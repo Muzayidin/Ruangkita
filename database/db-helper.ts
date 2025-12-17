@@ -75,11 +75,62 @@ export function getFeaturedProducts(): Product[] {
 }
 
 // Fungsi untuk mendapatkan semua produk (Digunakan oleh GET API Route: /api/products)
-export function getAllProducts(): Product[] {
+// Fungsi untuk mendapatkan semua produk (Digunakan oleh GET API Route: /api/products)
+// Fungsi untuk mendapatkan semua produk (Digunakan oleh GET API Route: /api/products)
+export function getAllProducts(
+  limit: number = 20,
+  offset: number = 0,
+  filters: { category?: string; search?: string; sortBy?: string } = {}
+): Product[] {
   try {
-    // Ini adalah fungsi yang dibutuhkan oleh API Route Anda
-    const stmt = db.prepare("SELECT * FROM products");
-    return stmt.all() as Product[];
+    let query = "SELECT * FROM products";
+    const params: any[] = [];
+    const conditions: string[] = [];
+
+    // Filter Kategori
+    if (filters.category && filters.category !== "Semua") {
+      conditions.push("category = ?");
+      params.push(filters.category);
+    }
+
+    // Filter Search (Name, Description, Category)
+    if (filters.search) {
+      conditions.push("(lower(name) LIKE ? OR lower(description) LIKE ? OR lower(category) LIKE ?)");
+      const searchTerm = `%${filters.search.toLowerCase()}%`;
+      params.push(searchTerm, searchTerm, searchTerm);
+    }
+
+    // Gabungkan conditions
+    if (conditions.length > 0) {
+      query += " WHERE " + conditions.join(" AND ");
+    }
+
+    // Sorting
+    switch (filters.sortBy) {
+      case "price_asc":
+        query += " ORDER BY price ASC";
+        break;
+      case "price_desc":
+        query += " ORDER BY price DESC";
+        break;
+      case "best_selling":
+        // Prioritaskan jumlah terjual. Jika null, anggap 0.
+        // Secondary sort: Featured, kemudian ID.
+        query += " ORDER BY COALESCE(soldCount, 0) DESC, featured DESC";
+        break;
+      case "newest":
+      default:
+        // Default sort: Newest + ID Desc for stability
+        query += " ORDER BY createdAt DESC, id DESC";
+        break;
+    }
+
+    // Pagination
+    query += " LIMIT ? OFFSET ?";
+    params.push(limit, offset);
+
+    const stmt = db.prepare(query);
+    return stmt.all(...params) as Product[];
   } catch (error) {
     console.error("Database Read Error (getAllProducts):", error);
     return []; // Mengembalikan array kosong jika ada error
@@ -95,6 +146,25 @@ export function getProductBySlug(slug: string): Product | undefined {
   } catch (error) {
     console.error(`Database Read Error (getProductBySlug: ${slug}):`, error);
     return undefined;
+  }
+}
+
+// Fungsi untuk mendapatkan produk terkait berdasarkan kategori
+export function getRelatedProducts(
+  category: string,
+  excludeSlug: string,
+  limit: number = 4
+): Product[] {
+  try {
+    const stmt = db.prepare(
+      "SELECT * FROM products WHERE category = ? AND slug != ? LIMIT ?"
+    );
+    const results = stmt.all(category, excludeSlug, limit) as Product[];
+    console.log(`[getRelatedProducts] Category: "${category}", Exclude: "${excludeSlug}", Found: ${results.length}`);
+    return results;
+  } catch (error) {
+    console.error("Database Read Error (getRelatedProducts):", error);
+    return [];
   }
 }
 
@@ -115,5 +185,16 @@ export function getHeroImagePath(): string {
   } catch (error) {
     console.error("Gagal mengambil gambar hero dari DB:", error);
     return "/images/placeholder-hero.jpg";
+  }
+}
+// Fungsi untuk mencari artikel
+export function searchArticles(query: string) {
+  try {
+    const searchTerm = `%${query.toLowerCase()}%`;
+    const stmt = db.prepare("SELECT * FROM Article WHERE lower(title) LIKE ? OR lower(content) LIKE ? ORDER BY createdAt DESC");
+    return stmt.all(searchTerm, searchTerm);
+  } catch (error) {
+    console.error("Database Article Search Error:", error);
+    return [];
   }
 }

@@ -3,6 +3,9 @@ import { Product } from "@/types/products";
 import AddToCartButton from "@/components/AddToCartButton";
 import Image from "next/image";
 import Link from "next/link";
+import { getRelatedProducts, getFeaturedProducts } from "@/database/db-helper"; // Import helper
+import { ProductCard } from "@/components/ProductCard"; // Import ProductCard
+import { ProductImage } from "@/components/ProductImage"; // Import ProductImage
 
 interface ProductDetailProps {
   params: Promise<{
@@ -39,11 +42,9 @@ export default async function ProductDetailPage(props: ProductDetailProps) {
         <div className="relative h-[50vh] lg:h-auto lg:sticky lg:top-[80px] bg-muted/20 overflow-hidden">
           {product.imageUrl ? (
             <>
-              <Image
+              <ProductImage
                 src={product.imageUrl}
                 alt={product.name}
-                fill={true}
-                className="object-cover"
                 priority
               />
               {/* Gradient Overlay for Text Readability if needed */}
@@ -82,11 +83,23 @@ export default async function ProductDetailPage(props: ProductDetailProps) {
           </h1>
 
           <div className="flex items-center gap-4 mb-8 animate-fade-in opacity-0 fill-mode-forwards" style={{ animationDelay: '300ms' }}>
-            <span className="text-3xl font-light text-accent">
-              Rp {product.price.toLocaleString("id-ID")}
-            </span>
+            <div className="flex items-end gap-3">
+              <span className="text-3xl lg:text-4xl font-light text-accent">
+                Rp {product.price.toLocaleString("id-ID")}
+              </span>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <div className="flex flex-col mb-1">
+                  <span className="text-sm lg:text-base text-muted/60 line-through">
+                    Rp {product.originalPrice.toLocaleString("id-ID")}
+                  </span>
+                  <span className="text-[10px] lg:text-xs font-bold text-red-500 bg-red-100 dark:bg-red-900/30 px-1.5 py-0.5 rounded-[4px] w-fit">
+                    Hemat {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                  </span>
+                </div>
+              )}
+            </div>
             {product.featured === 1 && (
-              <span className="px-2 py-1 bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wide rounded">
+              <span className="px-2 py-1 bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wide rounded self-center">
                 Best Seller
               </span>
             )}
@@ -129,15 +142,41 @@ export default async function ProductDetailPage(props: ProductDetailProps) {
       </div>
 
       {/* Related Products Section (Enhancement) */}
-      <section className="bg-muted/10 py-20 px-4 border-t border-muted/20">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8 text-center">Lengkapi Ruangan Anda</h2>
-          {/* Placeholder for related products grid */}
-          <div className="text-center text-muted text-sm">
-            [Related products component would go here]
-          </div>
-        </div>
-      </section>
+      <RelatedProductsSection category={product.category || ""} currentSlug={product.slug} />
     </div>
+  );
+}
+
+// Separate component for Related Products to keep main component clean
+async function RelatedProductsSection({ category, currentSlug }: { category: string, currentSlug: string }) {
+  let products = category
+    ? await getRelatedProducts(category, currentSlug, 4)
+    : [];
+
+  let title = "Lengkapi Ruangan Anda";
+
+  // Fallback if no related products found
+  if (products.length === 0) {
+    products = await getFeaturedProducts();
+    // Filter out current product just in case it's in featured
+    products = products.filter(p => p.slug !== currentSlug).slice(0, 4);
+    title = "Produk Pilihan Lainnya";
+  }
+
+  if (products.length === 0) {
+    return null; // Still nothing? Then hide.
+  }
+
+  return (
+    <section className="bg-muted/10 py-20 px-4 border-t border-muted/20">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-2xl font-bold mb-8 text-center">{title}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {products.map((product) => (
+            <ProductCard key={product.slug} product={product} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

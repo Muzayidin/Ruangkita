@@ -1,6 +1,9 @@
+
 // app/admin/AdminShell.tsx
+"use client";
+
 import Link from "next/link";
-import { adminTheme as t } from "./adminTheme";
+import { adminTheme } from "./adminTheme";
 
 type AdminShellProps = {
   title: string;
@@ -9,17 +12,11 @@ type AdminShellProps = {
   children: React.ReactNode;
 };
 
-const navItemStyle: React.CSSProperties = {
-  padding: "8px 12px",
-  borderRadius: 8,
-  fontSize: 14,
-  color: t.textSoft,
-  fontWeight: 500,
-  textDecoration: "none",
-  display: "flex",
-  alignItems: "center",
-  gap: 8,
-};
+// Simplified: We don't need useTheme here anymore because styles use vars.
+// But wait, the special logic for sidebar background?
+// background: mounted && theme === 'dark' ? "rgba(0,0,0,0.2)" : "rgba(255, 255, 255, 0.5)"
+// I can make that a variable too? "surface".
+// Let's use adminTheme.surface.
 
 export default function AdminShell({
   title,
@@ -27,6 +24,22 @@ export default function AdminShell({
   actions,
   children,
 }: AdminShellProps) {
+
+  const t = adminTheme;
+
+  const navItemStyle: React.CSSProperties = {
+    padding: "8px 12px",
+    borderRadius: 8,
+    fontSize: 14,
+    color: t.textSoft,
+    fontWeight: 500,
+    textDecoration: "none",
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    transition: "color 0.2s"
+  };
+
   return (
     <div
       style={{
@@ -34,18 +47,20 @@ export default function AdminShell({
         background: t.bg,
         display: "grid",
         gridTemplateColumns: "260px minmax(0, 1fr)",
+        transition: "background 0.3s ease"
       }}
     >
       {/* Sidebar */}
       <aside
         style={{
           borderRight: `1px solid ${t.border}`,
-          background: "rgba(255, 255, 255, 0.5)",
+          background: t.surface, // Use the variable
           backdropFilter: "blur(12px)",
           padding: 24,
           display: "flex",
           flexDirection: "column",
           gap: 20,
+          transition: "border-color 0.3s ease, background 0.3s ease"
         }}
       >
         <div
@@ -55,7 +70,8 @@ export default function AdminShell({
             letterSpacing: -0.5,
             marginBottom: 8,
             color: t.text,
-            fontFamily: "serif", // Premium look
+            fontFamily: "serif",
+            transition: "color 0.3s ease"
           }}
         >
           RuangKita <span style={{ color: t.warning }}>.</span>
@@ -65,12 +81,18 @@ export default function AdminShell({
         </div>
 
         <nav style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <Link href="/admin/dashboard" style={navItemStyle}>
+            <span>🏠</span>
+            <span>Dashboard</span>
+          </Link>
           <Link href="/admin/products" style={navItemStyle}>
             <span>🪑</span>
             <span>Produk</span>
           </Link>
-          {/* kalau nanti mau tambah menu lain tinggal tambah di sini */}
-          {/* <Link href="/admin/orders" style={navItemStyle}>...</Link> */}
+          <Link href="/admin/articles" style={navItemStyle}>
+            <span>📝</span>
+            <span>Artikel</span>
+          </Link>
         </nav>
 
         <div style={{ flexGrow: 1 }} />
@@ -113,6 +135,7 @@ export default function AdminShell({
                 color: t.text,
                 letterSpacing: 0.2,
                 fontWeight: 700,
+                transition: "color 0.3s ease"
               }}
             >
               {title}

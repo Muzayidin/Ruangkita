@@ -25,3 +25,14 @@ model products {
   stock       Int?      
   featured    Int?
 }
+
+model Article {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String
+  content   String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(true)
+}

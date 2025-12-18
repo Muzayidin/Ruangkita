@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getFeaturedProducts } from "@/database/db-helper";
 import { Product } from "@/types/products";
-import { ProductCard } from "@/components/ProductCard";
+import { ProductCard } from "@/components/products/ProductCard";
 
 export default async function Home() {
   const heroImagePath: string = "/ruang tamu minimalis.jpg";

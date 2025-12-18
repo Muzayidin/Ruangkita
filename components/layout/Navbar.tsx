@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useCart } from "./CartProvider";
+import { useCart } from "@/components/cart/CartProvider";
 import { useState, useEffect } from "react";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "@/components/providers/ThemeProvider";
 
 import { usePathname, useRouter } from "next/navigation";
 

@@ -1,16 +1,16 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { CartProvider } from "@/components/CartProvider";
-import { Navbar } from "@/components/Navbar";
-import { CartSidebar } from "@/components/CartSidebar";
-import { FooterWrapper } from "@/components/FooterWrapper";
+import { CartProvider } from "@/components/cart/CartProvider";
+import { Navbar } from "@/components/layout/Navbar";
+import { CartSidebar } from "@/components/cart/CartSidebar";
+import { FooterWrapper } from "@/components/layout/FooterWrapper";
 
 export const metadata: Metadata = {
   title: "RuangKita - Toko Furniture Modern",
   description: "Toko furniture minimalis untuk rumah dan bisnis Anda.",
 };
 
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 export default function RootLayout({
   children,

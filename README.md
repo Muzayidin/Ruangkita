@@ -33,4 +33,29 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Technologies Used
+
+This project is built using the following technologies:
+
+### Core
+- **[Next.js](https://nextjs.org/)**: ^16.0.7 - The React Framework for the Web
+- **[React](https://react.dev/)**: 19.2.0 - Library for building user interfaces
+
+### Styling
+- **[Tailwind CSS](https://tailwindcss.com/)**: ^4.0.0 - Utility-first CSS framework
+
+### Database & Backend
+- **[Prisma](https://www.prisma.io/)**: ^6.19.0 - Next-generation ORM
+- **[Supabase](https://supabase.com/)**: ^2.84.0 - Open Source Firebase alternative
+- **[Better SQLite3](https://github.com/WiseLibs/better-sqlite3)**: ^12.5.0 - Fastest SQLite3 library for Node.js
+
+### Utilities & Others
+- **[Bcryptjs](https://www.npmjs.com/package/bcryptjs)**: ^3.0.3 - Library for hashing passwords
+- **[React Quill New](https://www.npmjs.com/package/react-quill-new)**: ^3.6.0 - Rich text editor for React
+
+### Development Tools
+- **TypeScript**: ^5.0.0
+- **ESLint**: ^9.0.0
+- **PostCSS**: Used with Tailwind CSS
+

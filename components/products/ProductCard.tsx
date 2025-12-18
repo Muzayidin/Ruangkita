@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Product } from "@/types/products";
-import { useCart } from "./CartProvider";
+import { useCart } from "@/components/cart/CartProvider";
 import Image from "next/image"; // 💡 Import komponen Image dari Next.js
 
 export function ProductCard({ product }: { product: Product }) {

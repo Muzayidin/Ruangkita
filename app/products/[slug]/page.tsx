@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { Product } from "@/types/products";
-import AddToCartButton from "@/components/AddToCartButton";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 import Image from "next/image";
 import Link from "next/link";
 import { getRelatedProducts, getFeaturedProducts } from "@/database/db-helper"; // Import helper
-import { ProductCard } from "@/components/ProductCard"; // Import ProductCard
-import { ProductImage } from "@/components/ProductImage"; // Import ProductImage
+import { ProductCard } from "@/components/products/ProductCard"; // Import ProductCard
+import { ProductImage } from "@/components/products/ProductImage"; // Import ProductImage
 
 interface ProductDetailProps {
   params: Promise<{

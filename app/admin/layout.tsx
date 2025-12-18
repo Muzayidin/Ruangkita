@@ -2,7 +2,7 @@
 "use client";
 
 import { adminTheme, adminPalette } from "./adminTheme";
-import { useTheme } from "@/components/ThemeProvider";
+import { useTheme } from "@/components/providers/ThemeProvider";
 import { useEffect, useState } from "react";
 
 export default function AdminLayout({

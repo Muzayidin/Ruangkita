@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ProductCard } from "@/components/ProductCard";
-import { ProductCardSkeleton } from "@/components/ProductCardSkeleton";
+import { ProductCard } from "@/components/products/ProductCard";
+import { ProductCardSkeleton } from "@/components/products/ProductCardSkeleton";
 import { Product } from "@/types/products"; // Impor tipe Product
 
 export default function ProductsPage() {

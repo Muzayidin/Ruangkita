@@ -93,10 +93,6 @@ export default async function AdminDashboardPage() {
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: t.text, marginBottom: 16 }}>Aksi Cepat</h3>
                 <div style={{ display: "flex", gap: 12 }}>
                     <Link
-                        href="/admin/products/new" // Assuming this exists or will exist, usually create is separate page or modal. Checking listing... usually user creates manually.
-                        // Wait, I haven't checked if /admin/products/create exists. Usually products page has the button. 
-                        // I'll just link to the list pages for now or create pages if I know them.
-                        // I created /admin/articles/create.
                         href="/admin/articles/create"
                         style={{
                             padding: "12px 20px",

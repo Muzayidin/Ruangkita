@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ProductCard } from "@/components/ProductCard";
+import { ProductCard } from "@/components/products/ProductCard";
 import { Product } from "@/types/products";
 import Link from "next/link";
 
@@ -15,7 +15,9 @@ interface Article {
     createdAt: string;
 }
 
-export default function SearchPage() {
+import { Suspense } from "react";
+
+function SearchContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get("q") || "";
 
@@ -115,5 +117,13 @@ export default function SearchPage() {
                 </div>
             )}
         </main>
+    );
+}
+
+export default function SearchPage() {
+    return (
+        <Suspense fallback={<div className="p-8 text-center">Loading search...</div>}>
+            <SearchContent />
+        </Suspense>
     );
 }

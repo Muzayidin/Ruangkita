@@ -22,7 +22,7 @@ export async function GET(request: Request, context: Context) {
   }
 
   try {
-    const product: Product | undefined = getProductBySlug(productSlug); // Panggil helper database
+    const product: Product | undefined = await getProductBySlug(productSlug); // Panggil helper database
 
     if (!product) {
       // Jika produk tidak ditemukan di database (404)

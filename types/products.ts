@@ -10,6 +10,7 @@ export type Product = {
   featured: 0 | 1; // Dari database, 1 atau 0
   soldCount?: number;
   createdAt?: Date | string;
+  stock?: number;
   originalPrice?: number;
 };
 

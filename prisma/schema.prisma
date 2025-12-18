@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -15,8 +15,8 @@ model AdminUser {
 
 
 model products {
-  id          String @id
-  slug        String  @unique(map: "sqlite_autoindex_products_2")
+  id          String @id @default(uuid())
+  slug        String  @unique
   name        String
   price       Int
   category    String?

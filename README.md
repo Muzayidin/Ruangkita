@@ -47,8 +47,7 @@ This project is built using the following technologies:
 
 ### Database & Backend
 - **[Prisma](https://www.prisma.io/)**: ^6.19.0 - Next-generation ORM
-- **[Supabase](https://supabase.com/)**: ^2.84.0 - Open Source Firebase alternative
-- **[Better SQLite3](https://github.com/WiseLibs/better-sqlite3)**: ^12.5.0 - Fastest SQLite3 library for Node.js
+- **PostgreSQL**: Database
 
 ### Utilities & Others
 - **[Bcryptjs](https://www.npmjs.com/package/bcryptjs)**: ^3.0.3 - Library for hashing passwords

@@ -13,10 +13,10 @@ export async function GET(request: Request) {
         // Search Products
         // We reuse getAllProducts but limit it to search results
         // getAllProducts accepts { search: query }
-        const products = getAllProducts(100, 0, { search: query });
+        const products = await getAllProducts(100, 0, { search: query });
 
         // Search Articles
-        const articles = searchArticles(query);
+        const articles = await searchArticles(query);
 
         return NextResponse.json({
             products,

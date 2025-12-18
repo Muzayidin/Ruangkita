@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/products/ProductCard";
 
 export default async function Home() {
   const heroImagePath: string = "/ruang tamu minimalis.jpg";
-  const featuredProducts: Product[] = getFeaturedProducts();
+  const featuredProducts: Product[] = await getFeaturedProducts();
 
   return (
     <main className="min-h-screen bg-background">

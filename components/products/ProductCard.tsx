@@ -13,11 +13,20 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <div className="group relative bg-muted/10 backdrop-blur-sm rounded-2xl md:rounded-3xl overflow-hidden border border-muted/20 hover:border-accent/30 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-2 flex flex-col h-full">
       {/* Badge Overlay */}
-      <div className="absolute top-3 left-3 md:top-4 md:left-4 z-20">
-        <span className="px-2 py-0.5 md:px-3 md:py-1 text-[8px] md:text-[10px] font-bold tracking-widest uppercase bg-black/80 text-white rounded-full backdrop-blur-md">
+      <div className="absolute top-1 left-3 md:top-4 md:left-4 z-20">
+        <span className="px-1.5 py-0.5 md:px-3 md:py-1 text-[6px] md:text-[10px] font-bold tracking-wider uppercase bg-black/80 text-white rounded-full backdrop-blur-md">
           {product.category || "New"}
         </span>
       </div>
+
+      {/* Preorder Badge */}
+      {(!product.stock || Number(product.stock) === 0) && (
+        <div className="absolute top-1 right-3 md:top-4 md:right-4 z-20">
+          <span className="px-1.5 py-0.5 md:px-3 md:py-1 text-[6px] md:text-[10px] font-bold tracking-wider uppercase bg-blue-600/90 text-white rounded-full backdrop-blur-md shadow-lg border border-white/10">
+            PREORDER
+          </span>
+        </div>
+      )}
 
       {/* Image Container */}
       <div className="relative aspect-square bg-muted/20 overflow-hidden">
@@ -68,9 +77,9 @@ export function ProductCard({ product }: { product: Product }) {
               {product.name}
             </Link>
           </h3>
-          <p className="text-[10px] md:text-xs text-muted mt-1 line-clamp-2">{product.description}</p>
+          <p className="text-[9px] md:text-xs text-muted mt-1 line-clamp-2">{product.description}</p>
           {product.soldCount !== undefined && product.soldCount > 0 && (
-            <p className="text-[10px] md:text-xs text-slate-500 mt-2 font-medium">
+            <p className="text-[9px] md:text-xs text-slate-500 mt-2 font-medium">
               Terjual {product.soldCount}
             </p>
           )}

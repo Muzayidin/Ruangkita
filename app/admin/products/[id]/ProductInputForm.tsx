@@ -45,15 +45,57 @@ export default function ProductInputForm() {
     }
   };
 
-  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setImageFile(file);
 
     if (file) {
+      // Preview local immediately
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
-      // opsional: kosongkan imageUrl manual
-      // setForm(prev => ({ ...prev, imageUrl: "" }));
+
+      // Start immediate upload
+      setUploadProgress(1);
+
+      try {
+        const fd = new FormData();
+        fd.append("file", file);
+
+        const uploadedUrl = await new Promise<string>((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", "/api/admin/upload", true);
+          xhr.withCredentials = true;
+
+          xhr.upload.onprogress = (event) => {
+            if (event.lengthComputable) {
+              const percentComplete = (event.loaded / event.total) * 100;
+              setUploadProgress(Math.round(percentComplete));
+            }
+          };
+
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              const data = JSON.parse(xhr.responseText);
+              resolve(data.url);
+            } else {
+              reject(xhr.responseText);
+            }
+          };
+
+          xhr.onerror = () => reject("Network error");
+          xhr.send(fd);
+        });
+
+        // Set the result URL to form
+        setForm(prev => ({ ...prev, imageUrl: uploadedUrl }));
+        // Keep 100% visible for a moment
+        setTimeout(() => setUploadProgress(0), 1500);
+
+      } catch (err) {
+        console.error("Upload failed", err);
+        alert("Gagal mengupload gambar");
+        setUploadProgress(0);
+      }
     }
   };
 
@@ -61,9 +103,18 @@ export default function ProductInputForm() {
     router.push("/admin/products");
   };
 
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+
+    // Prevent submit if still uploading
+    if (uploadProgress > 0 && uploadProgress < 100) {
+      alert("Tunggu proses upload gambar selesai!");
+      setSaving(false);
+      return;
+    }
 
     try {
       const fd = new FormData();
@@ -74,13 +125,11 @@ export default function ProductInputForm() {
       fd.append("price", form.price);
       fd.append("originalPrice", form.originalPrice);
       fd.append("stock", form.stock);
-      fd.append("imageUrl", form.imageUrl);
+      fd.append("imageUrl", form.imageUrl); // Now sending the URL string
       fd.append("featured", form.featured);
       fd.append("soldCount", form.soldCount);
 
-      if (imageFile) {
-        fd.append("image", imageFile);
-      }
+      // Explicitly NO image file sent here, we used immediate upload
 
       const res = await fetch("/api/admin/products", {
         method: "POST",
@@ -391,6 +440,9 @@ export default function ProductInputForm() {
             style={{
               display: "flex",
               justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 8,
             }}
           >
             <div
@@ -417,31 +469,73 @@ export default function ProductInputForm() {
                   display: "block",
                 }}
               />
+              {/* Overlay Progress if preferred there, or below */}
             </div>
+
+            {/* Upload Progress Bar */}
+            {uploadProgress > 0 && (
+              <div style={{ width: "100%", maxWidth: 320, display: "flex", flexDirection: "column", gap: 4 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: t.textSoft }}>
+                  <span>{uploadProgress === 100 ? "Upload Selesai" : "Mengupload..."}</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    height: 6,
+                    background: t.bgSoft,
+                    borderRadius: 999,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${uploadProgress}%`,
+                      height: "100%",
+                      background: uploadProgress === 100 ? "#22c55e" : t.primary,
+                      transition: "width 0.2s ease-out",
+                    }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Featured
+      {/* Featured Checkbox */}
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         <label style={{ fontSize: 13, fontWeight: 500, color: t.textSoft }}>
-          Featured (opsional, misal 0 atau 1)
+          Status Produk
         </label>
-        <input
-          type="number"
-          name="featured"
-          value={form.featured}
-          onChange={handleChange}
-          style={{
-            borderRadius: t.radiusMd,
-            border: `1px solid ${t.border}`,
-            padding: "9px 13px",
-            fontSize: 15,
-            color: t.textMuted,
-            maxWidth: 120,
-          }}
-        />
-      </div> */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <input
+            type="checkbox"
+            id="featured"
+            name="featured"
+            checked={form.featured === "1"}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                featured: e.target.checked ? "1" : "0",
+              }))
+            }
+            style={{
+              width: 18,
+              height: 18,
+              cursor: "pointer",
+            }}
+          />
+          <label
+            htmlFor="featured"
+            style={{ fontSize: 14, color: t.text, cursor: "pointer" }}
+          >
+            Jadikan Produk Unggulan (Featured)
+          </label>
+        </div>
+      </div>
+
+
 
       {/* Tombol aksi */}
       <div

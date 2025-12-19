@@ -13,19 +13,18 @@ model AdminUser {
   password String
 }
 
-
 model products {
-  id          String @id @default(uuid())
-  slug        String  @unique
-  name        String
-  price       Int
-  category    String?
-  description String?
-  imageUrl    String? 
-  stock       Int?      
-  featured    Int?
-  soldCount   Int?      @default(0)
-  createdAt   DateTime  @default(now())
+  id            String   @id @default(uuid())
+  slug          String   @unique
+  name          String
+  price         Int
+  category      String?
+  description   String?
+  imageUrl      String?
+  stock         Int?
+  featured      Int?
+  soldCount     Int?     @default(0)
+  createdAt     DateTime @default(now())
   originalPrice Int?
 }
 

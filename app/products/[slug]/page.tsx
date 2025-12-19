@@ -103,6 +103,12 @@ export default async function ProductDetailPage(props: ProductDetailProps) {
                 Best Seller
               </span>
             )}
+            {/* Preorder Badge Detail Page */}
+            {(!product.stock || Number(product.stock) === 0) && (
+              <span className="px-3 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-[10px] font-bold uppercase tracking-wide rounded-full border border-blue-200 dark:border-blue-800 self-center">
+                Preorder
+              </span>
+            )}
           </div>
 
           {/* Description */}

@@ -76,8 +76,8 @@ export default function ProductCard({
           {/* Admin Specific Info: Stock */}
           <div className="flex flex-col items-end">
             <span className="text-[10px] text-[#a8a29e] font-medium uppercase tracking-wider">Stok</span>
-            <span className={`text-xs font-bold ${stock && stock > 0 ? "text-emerald-600" : "text-red-500"}`}>
-              {stock ?? 0} unit
+            <span className={`text-xs font-bold ${(!stock || Number(stock) === 0) ? "text-blue-600" : "text-emerald-600"}`}>
+              {stock && Number(stock) > 0 ? `${stock} unit` : "Preorder (0)"}
             </span>
           </div>
         </div>

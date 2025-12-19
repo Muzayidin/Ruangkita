@@ -1,0 +1,30 @@
+192.168.0.102:3512/aapanel
+
+
+root ps Jmff7XkF3mCEjxME
+port posgreesql 5432
+
+username
+ruangkita
+
+password
+fKh3pENEFF2tbz3r
+
+
+login armbian ssh
+root
+1234
+
+login web admin
+username adminkita
+password ruangkita123
+
+
+aapanel akun
+fajrimuzayin@gmail.com
+panelmuza
+
+login aapanel
+muzayin
+panelmuza
+

@@ -136,8 +136,25 @@ export default function ProductsPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasMore, isFetching, loading]);
 
-  // Ambil unique categories (dari SEMUA yang sudah terload - mungkin perlu refactor untuk ambil dari DB endpoint server separate, tapi untuk MVP ini oke)
-  const categories = ["Semua", "Ruang Tamu", "Ruang Makan", "Kamar Tidur", "Ruang Kerja", "Dapur", "Dekorasi", "Teras & Taman", "Ruang Keluarga"];
+  // State untuk kategori dinamis
+  const [categories, setCategories] = useState<string[]>(["Semua"]);
+
+  // Fetch categories on mount
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch("/api/categories");
+        if (res.ok) {
+          const data = await res.json();
+          // Tambahkan "Semua" di awal
+          setCategories(["Semua", ...data]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   const sortOptions = [
     { value: "newest", label: "Terbaru" },

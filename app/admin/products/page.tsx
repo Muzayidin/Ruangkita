@@ -2,8 +2,6 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import AdminShell from "../AdminShell";
-import { adminTheme as t } from "../adminTheme";
 import AdminProductList from "@/components/admin/AdminProductList";
 
 async function requireAdmin() {
@@ -20,71 +18,35 @@ export default async function AdminProductsPage() {
   });
 
   return (
-    <AdminShell
-      title="Produk"
-      subtitle="Kelola katalog produk dan produk unggulan RuangKita"
-      actions={
-        <>
-          <Link href="/admin/products/new">
-            <button
-              style={{
-                padding: "10px 24px",
-                background: t.primary,
-                color: "white",
-                border: "none",
-                borderRadius: 999,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: "pointer",
-                boxShadow: t.shadowSoft,
-                transition: "transform 0.2s",
-              }}
-            >
-              + Tambah Produk
-            </button>
-          </Link>
-        </>
-      }
-    >
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Produk</h1>
+          <p className="text-slate-500 dark:text-slate-400">Kelola katalog produk dan produk unggulan RuangKita</p>
+        </div>
+        <Link href="/admin/products/new">
+          <button className="px-5 py-2.5 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-semibold text-sm shadow-lg shadow-orange-900/20 transition-all hover:scale-105">
+            + Tambah Produk
+          </button>
+        </Link>
+      </div>
+
       {/* Stats Summary */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: 20,
-          marginBottom: 32,
-        }}
-      >
-        <div
-          style={{
-            background: t.surface,
-            backdropFilter: "blur(12px)",
-            borderRadius: t.radiusMd,
-            border: `1px solid ${t.border}`,
-            padding: 24,
-            boxShadow: t.shadowCard,
-          }}
-        >
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: 1,
-              color: t.textMuted,
-              marginBottom: 8,
-            }}
-          >
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm backdrop-blur-sm">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
             Total Produk
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: t.text, fontFamily: 'serif' }}>
+          <div className="text-3xl font-black text-slate-900 dark:text-slate-100 font-serif">
             {products.length}
           </div>
         </div>
       </div>
 
       {/* Product Grid with Search - via Client Component */}
-      <AdminProductList initialProducts={products} />
-    </AdminShell>
+      <div className="min-h-[500px]">
+        <AdminProductList initialProducts={products} />
+      </div>
+    </div>
   );
 }

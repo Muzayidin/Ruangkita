@@ -20,6 +20,9 @@ export function Navbar() {
   // Check if we are on the products/catalog page
   const isProductsPage = pathname?.includes("/products");
 
+  // Hide navbar on admin pages
+  if (pathname?.startsWith("/admin")) return null;
+
   // Effect untuk mendeteksi scroll agar navbar berubah style
   useEffect(() => {
     const handleScroll = () => {

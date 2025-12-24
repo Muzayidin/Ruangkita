@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model AdminUser {
@@ -26,6 +26,7 @@ model products {
   soldCount     Int?     @default(0)
   createdAt     DateTime @default(now())
   originalPrice Int?
+  items       OrderItem[]
 }
 
 model Article {
@@ -37,4 +38,40 @@ model Article {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   published Boolean  @default(true)
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  customerName String
+  email        String?
+  whatsapp     String
+  address      String?
+  total        Int
+  status       String      @default("pending") // pending, paid, shipped, completed, cancelled
+  
+  // New tracking fields based on Google Sheet
+  productionStatus String? // "Proses", "Terkirim", "Selesai" (Global status)
+  
+  // Component statuses
+  carvingStatus String? // "Proses", "Selesai"
+  chairStatus   String? // "Proses", "Selesai"
+  tableStatus   String? // "Proses", "Selesai"
+  baseStatus    String? // "Proses", "Selesai" (Dulangan)
+  
+  deliveryDate DateTime?
+  notes        String?
+
+  items        OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   products @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Int
 }

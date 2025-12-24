@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ToastProvider } from "@/components/providers/ToastProvider";
 
 export default function RootLayout({
   children,
@@ -26,6 +27,7 @@ export default function RootLayout({
             {children}
             <FooterWrapper />
             <CartSidebar />
+            <ToastProvider />
           </CartProvider>
         </ThemeProvider>
       </body>

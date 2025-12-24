@@ -44,7 +44,7 @@ export default async function AdminProductsPage() {
       </div>
 
       {/* Product Grid with Search - via Client Component */}
-      <div className="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden min-h-[500px]">
+      <div className="min-h-[500px]">
         <AdminProductList initialProducts={products} />
       </div>
     </div>

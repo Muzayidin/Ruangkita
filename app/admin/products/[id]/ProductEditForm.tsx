@@ -107,7 +107,7 @@ export default function ProductEditForm({ product }: { product: Product }) {
         fd.append("image", imageFile);
       }
 
-      const response = await fetch(`/ api / admin / products / ${product.id} `, {
+      const response = await fetch(`/api/admin/products/${product.id}`, {
         method: "PUT",
         body: fd,
         credentials: "include",
@@ -149,7 +149,7 @@ export default function ProductEditForm({ product }: { product: Product }) {
         fd.append("image", imageFile);
       }
 
-      const response = await fetch(`/ api / admin / products / ${product.id} `, {
+      const response = await fetch(`/api/admin/products/${product.id}`, {
         method: "PUT",
         body: fd,
         credentials: "include",
@@ -184,7 +184,7 @@ export default function ProductEditForm({ product }: { product: Product }) {
     setDeleting(true);
 
     try {
-      const response = await fetch(`/ api / admin / products / ${product.id} `, {
+      const response = await fetch(`/api/admin/products/${product.id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -387,8 +387,8 @@ export default function ProductEditForm({ product }: { product: Product }) {
               onClick={handleSetFeatured}
               disabled={product.featured === 1 || saving}
               className={`px - 4 py - 2 rounded - lg font - medium text - sm border flex items - center gap - 2 transition - colors ${product.featured === 1
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700 cursor-default'
-                  : 'border-yellow-200 dark:border-yellow-900/50 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
+                ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700 cursor-default'
+                : 'border-yellow-200 dark:border-yellow-900/50 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
                 } `}
             >
               <Star className={`w - 4 h - 4 ${product.featured === 1 ? 'fill-slate-400' : ''} `} />

@@ -1,49 +1,70 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getFeaturedProducts } from "@/database/db-helper";
+import { getFeaturedProducts, getAllProducts } from "@/database/db-helper"; // Added getAllProducts
 import { Product } from "@/types/products";
 import { ProductCard } from "@/components/products/ProductCard";
+import { Spotlight } from "@/components/ui/spotlight";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { Palette, ShieldCheck, Truck } from "lucide-react";
+
+export const dynamic = "force-dynamic"; // Ensure fresh data
 
 export default async function Home() {
   const heroImagePath: string = "/ruang tamu minimalis.jpg";
-  const featuredProducts: Product[] = await getFeaturedProducts();
+  let featuredProducts: Product[] = await getFeaturedProducts();
+
+  // Fallback: If no featured products, get 8 recent products
+  if (featuredProducts.length === 0) {
+    featuredProducts = await getAllProducts(8);
+  } else if (featuredProducts.length < 4) {
+    // Append some recent ones if we have too few featured
+    const recent = await getAllProducts(4);
+    featuredProducts = [...featuredProducts, ...recent].slice(0, 8);
+    // Remove duplicates by ID
+    featuredProducts = Array.from(new Map(featuredProducts.map(item => [item.id, item])).values());
+  }
 
   return (
     <main className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[65vh] md:h-[85vh] flex items-center justify-center overflow-hidden bg-slate-900 rounded-b-[2rem] md:rounded-b-[3rem] shadow-2xl mx-0 sm:mx-4 mt-0 sm:mt-2">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
+      <section className="relative h-[65vh] md:h-[85vh] flex items-center justify-center overflow-hidden bg-slate-950 rounded-b-[2rem] md:rounded-b-[3rem] shadow-2xl mx-0 sm:mx-4 mt-0 sm:mt-2">
+        <Spotlight
+          className="-top-40 left-0 md:left-60 md:-top-20"
+          fill="white"
+        />
+
+        {/* Background Image with Overlay - Kept subtle for texture */}
+        <div className="absolute inset-0 z-0 opacity-20 disabled:opacity-0 mixed-blend-overlay">
           <Image
             src={heroImagePath}
             alt="Modern Interior"
             fill={true}
             style={{ objectFit: "cover" }}
             priority={true}
-            className="opacity-60"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         </div>
+
+        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:20px_20px]" />
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white space-y-4 md:space-y-8 animate-slide-up">
-          <div className="inline-block px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs md:text-sm font-medium animate-fade-in tracking-wider uppercase">
+          <div className="inline-block px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-xs md:text-sm font-medium animate-fade-in tracking-wider uppercase text-slate-300">
             ✨ Koleksi Premium 2025
           </div>
 
-          <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight max-w-5xl mx-auto font-serif">
+          <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight max-w-5xl mx-auto bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
             Wujudkan <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-200 to-amber-100">Estetika</span> <br />
             Tanpa Batas
           </h1>
 
-          <p className="text-base md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-light px-4">
+          <p className="text-base md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-light px-4">
             Kurasi furniture modern dengan sentuhan arsitektural untuk hunian yang memikat hati.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 md:pt-8">
             <Link
               href="/products"
-              className="px-6 py-3 md:px-8 md:py-4 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-bold text-sm md:text-base transition-all transform hover:scale-105 shadow-xl hover:shadow-orange-600/30"
+              className="px-6 py-3 md:px-8 md:py-4 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-bold text-sm md:text-base transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(234,88,12,0.5)] border border-orange-500/20"
             >
               Jelajahi Katalog
             </Link>
@@ -54,21 +75,71 @@ export default async function Home() {
       {/* Features / Why Choose Us */}
       <section className="py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-8 text-center">
-            {[
-              { title: "Desain Premium", desc: "Dikurasi oleh desainer interior profesional.", icon: "🎨" },
-              { title: "Kualitas Terbaik", desc: "Material pilihan yang tahan lama dan kokoh.", icon: "💎" },
-              { title: "Gratis Ongkir", desc: "Untuk wilayah Jawa Timur dengan minimal belanja.", icon: "🚚" },
-            ].map((feature, i) => (
-              <div key={i} className="group p-3 md:p-10 rounded-2xl md:rounded-3xl bg-card/60 backdrop-blur-xl border border-white/50 dark:border-white/10 hover:bg-card/70 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 shadow-md shadow-muted/50 dark:shadow-none flex flex-col items-center text-center">
-                <div className="text-2xl md:text-5xl mb-3 md:mb-6 group-hover:scale-105 transition-transform duration-300 drop-shadow-sm p-2 md:p-4 bg-white/50 rounded-full">
-                  {feature.icon}
+          <BentoGrid>
+            {/* Custom Skeleton Component */}
+            {(() => {
+              const Skeleton = ({ className, children }: { className?: string, children?: React.ReactNode }) => (
+                <div className={`flex flex-1 w-full h-full min-h-[8rem] rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-800 border border-transparent dark:border-white/[0.1] relative overflow-hidden group/skeleton ${className}`}>
+                  <div className="absolute inset-0 bg-grid-black/[0.1] dark:bg-grid-white/[0.1] bg-[length:20px_20px] [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)]" />
+                  {children}
                 </div>
-                <h3 className="text-xs md:text-xl font-bold text-foreground mb-1 md:mb-3 font-serif tracking-tight">{feature.title}</h3>
-                <p className="text-[10px] md:text-base text-muted leading-tight md:leading-relaxed font-medium">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
+              );
+
+              return [
+                {
+                  title: "Desain Premium",
+                  desc: "Dikurasi oleh desainer interior profesional untuk estetika maksimal.",
+                  header: (
+                    <Skeleton className="from-orange-100 to-amber-50 dark:from-slate-800 dark:to-slate-900">
+                      <div className="absolute right-0 bottom-0 w-24 h-24 bg-gradient-to-tl from-orange-400/20 to-transparent rounded-tl-full" />
+                      <div className="absolute top-4 left-4 p-2 bg-white/50 dark:bg-black/20 rounded-lg backdrop-blur-sm">
+                        <Palette className="w-8 h-8 text-orange-500" />
+                      </div>
+                    </Skeleton>
+                  ),
+                  icon: <Palette className="h-4 w-4 text-neutral-500" />,
+                },
+                {
+                  title: "Kualitas Terbaik",
+                  desc: "Material pilihan yang tahan lama dan kokoh standar ekspor.",
+                  header: (
+                    <Skeleton className="from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-20 h-20 bg-indigo-500/10 rounded-full flex items-center justify-center animate-pulse">
+                          <ShieldCheck className="w-10 h-10 text-indigo-500" />
+                        </div>
+                      </div>
+                    </Skeleton>
+                  ),
+                  icon: <ShieldCheck className="h-4 w-4 text-neutral-500" />,
+                  className: "md:col-span-1",
+                },
+                {
+                  title: "Gratis Ongkir",
+                  desc: "Untuk wilayah Jawa Timur dengan minimal belanja tertentu.",
+                  header: (
+                    <Skeleton className="from-emerald-50 to-green-50 dark:from-slate-800 dark:to-slate-900">
+                      <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-full h-12 bg-emerald-500/10 rotate-12 transform scale-125" />
+                      <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-full h-12 bg-emerald-500/10 -rotate-6 transform" />
+                      <div className="absolute bottom-4 right-4">
+                        <Truck className="w-12 h-12 text-emerald-500/50" />
+                      </div>
+                    </Skeleton>
+                  ),
+                  icon: <Truck className="h-4 w-4 text-neutral-500" />,
+                },
+              ].map((item, i) => (
+                <BentoGridItem
+                  key={i}
+                  title={item.title}
+                  description={item.desc}
+                  header={item.header}
+                  icon={item.icon}
+                  className={item.className}
+                />
+              ));
+            })()}
+          </BentoGrid>
         </div>
       </section>
 

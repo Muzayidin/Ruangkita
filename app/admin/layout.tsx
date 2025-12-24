@@ -1,60 +1,32 @@
-
 "use client";
-
-import { adminTheme, adminPalette } from "./adminTheme";
-import { useTheme } from "@/components/providers/ThemeProvider";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { AdminHeader } from "@/components/admin/AdminHeader";
+import { cn } from "@/lib/utils";
 
 export default function AdminLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const { theme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    // Default to light to avoid flash if possible, or stick to mounted check
-    const currentPalette = mounted && theme === 'dark' ? adminPalette.dark : adminPalette.light;
-
-    const cssVars = {
-        "--adm-bg": currentPalette.bg,
-        "--adm-bg-soft": currentPalette.bgSoft,
-        "--adm-surface": currentPalette.surface,
-        "--adm-surface-highlight": currentPalette.surfaceHighlight,
-        "--adm-border": currentPalette.border,
-        "--adm-border-soft": currentPalette.borderSoft,
-        "--adm-text": currentPalette.text,
-        "--adm-text-soft": currentPalette.textSoft,
-        "--adm-text-muted": currentPalette.textMuted,
-        "--adm-primary": currentPalette.primary,
-        "--adm-primary-hover": currentPalette.primaryHover,
-        "--adm-danger": currentPalette.danger,
-        "--adm-danger-hover": currentPalette.dangerHover,
-        "--adm-warning": currentPalette.warning,
-        "--adm-shadow-soft": currentPalette.shadowSoft,
-        "--adm-shadow-card": currentPalette.shadowCard,
-    } as React.CSSProperties;
-
-    // We can't return null during server render if we want SEO, but layout wraps pages.
-    // If we return null, everything blinks.
-    // Better to return children with default vars (light) to match server html.
+    const [sidebarOpen, setSidebarOpen] = useState(true);
 
     return (
-        <div
-            style={{
-                ...cssVars,
-                color: adminTheme.text,
-                background: adminTheme.bg,
-                textAlign: "left",
-                minHeight: "100vh",
-                transition: "background 0.3s ease, color 0.3s ease"
-            }}
-        >
-            {children}
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100">
+            <AdminSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+
+            <div
+                className={cn(
+                    "transition-all duration-300 ease-in-out flex flex-col min-h-screen",
+                    sidebarOpen ? "md:ml-60" : "md:ml-20"
+                )}
+            >
+                <AdminHeader open={sidebarOpen} setOpen={setSidebarOpen} />
+
+                <main className="flex-1 p-4 md:p-6 lg:p-8 animate-fade-in">
+                    {children}
+                </main>
+            </div>
         </div>
     );
 }

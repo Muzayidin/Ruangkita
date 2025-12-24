@@ -1,11 +1,9 @@
-
 "use client";
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import AdminShell from "../../AdminShell";
-import { adminTheme as t } from "../../adminTheme";
+import { ArrowLeft, Loader2, Save } from "lucide-react";
 import "react-quill-new/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
@@ -22,7 +20,6 @@ export default function CreateArticlePage() {
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const title = e.target.value;
-        // Auto-generate slug from title
         const slug = title
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, "-")
@@ -45,7 +42,7 @@ export default function CreateArticlePage() {
             if (!res.ok) throw new Error("Failed to create article");
 
             router.push("/admin/articles");
-            router.refresh(); // Refresh the list
+            router.refresh();
         } catch (error) {
             alert("Error creating article");
             console.error(error);
@@ -55,129 +52,107 @@ export default function CreateArticlePage() {
     };
 
     return (
-        <AdminShell
-            title="Buat Artikel Baru"
-            subtitle="Tulis artikel blog baru"
-        >
-            <div
-                style={{
-                    background: "white",
-                    padding: 32,
-                    borderRadius: 12,
-                    border: `1px solid ${t.border}`,
-                    maxWidth: 900,
-                }}
-            >
-                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                    {/* Title */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                        <label style={{ fontSize: 13, fontWeight: 600, color: t.text }}>Judul Artikel</label>
-                        <input
-                            type="text"
-                            required
-                            value={formData.title}
-                            onChange={handleTitleChange}
-                            placeholder="Masukkan judul artikel..."
-                            style={{
-                                padding: "10px 12px",
-                                border: `1px solid ${t.border}`,
-                                borderRadius: 6,
-                                fontSize: 14,
-                                outline: "none",
-                            }}
-                        />
-                    </div>
+        <div className="space-y-6 max-w-5xl mx-auto">
+            <div className="flex items-center gap-4">
+                <button
+                    onClick={() => router.back()}
+                    className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                >
+                    <ArrowLeft className="w-5 h-5 text-slate-500" />
+                </button>
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+                        Buat Artikel Baru
+                    </h1>
+                    <p className="text-slate-500 dark:text-slate-400">
+                        Tulis artikel blog baru
+                    </p>
+                </div>
+            </div>
 
-                    {/* Slug */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                        <label style={{ fontSize: 13, fontWeight: 600, color: t.text }}>Slug (URL)</label>
-                        <input
-                            type="text"
-                            required
-                            value={formData.slug}
-                            onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                            style={{
-                                padding: "10px 12px",
-                                border: `1px solid ${t.border}`,
-                                borderRadius: 6,
-                                fontSize: 14,
-                                background: t.bg,
-                                color: t.textMuted,
-                                outline: "none",
-                            }}
-                        />
-                    </div>
+            <div className="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <form onSubmit={handleSubmit} className="p-6 space-y-8">
+                    <div className="space-y-6">
+                        {/* Title & Slug */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <label className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                                    Judul Artikel
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    value={formData.title}
+                                    onChange={handleTitleChange}
+                                    placeholder="Masukkan judul artikel..."
+                                    className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                                    Slug (URL)
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    value={formData.slug}
+                                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-500 outline-none"
+                                />
+                            </div>
+                        </div>
 
-                    {/* Image URL */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                        <label style={{ fontSize: 13, fontWeight: 600, color: t.text }}>URL Gambar Cover</label>
-                        <input
-                            type="url"
-                            value={formData.imageUrl}
-                            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                            placeholder="https://example.com/image.jpg"
-                            style={{
-                                padding: "10px 12px",
-                                border: `1px solid ${t.border}`,
-                                borderRadius: 6,
-                                fontSize: 14,
-                                outline: "none",
-                            }}
-                        />
-                    </div>
-
-                    {/* Rich Text Content */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                        <label style={{ fontSize: 13, fontWeight: 600, color: t.text }}>Konten</label>
-                        <div style={{ height: 400, marginBottom: 50 }}> {/* Extra header for toolbar */}
-                            <ReactQuill
-                                theme="snow"
-                                value={formData.content}
-                                onChange={(content) => setFormData({ ...formData, content })}
-                                style={{ height: "100%" }}
+                        {/* Image URL */}
+                        <div className="space-y-2">
+                            <label className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                                URL Gambar Cover
+                            </label>
+                            <input
+                                type="url"
+                                value={formData.imageUrl}
+                                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                                placeholder="https://example.com/image.jpg"
+                                className="w-full px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                             />
+                        </div>
+
+                        {/* Rich Text Editor */}
+                        <div className="space-y-2">
+                            <label className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                                Konten
+                            </label>
+                            <div className="h-[400px] mb-12">
+                                <ReactQuill
+                                    theme="snow"
+                                    value={formData.content}
+                                    onChange={(content) => setFormData({ ...formData, content })}
+                                    className="h-full bg-white dark:bg-slate-950 rounded-lg"
+                                />
+                            </div>
                         </div>
                     </div>
 
                     {/* Actions */}
-                    <div style={{ display: "flex", justifyContent: "flex-end", gap: 12, marginTop: 24 }}>
+                    <div className="flex justify-end gap-3 pt-6 border-t border-slate-200 dark:border-slate-800">
                         <button
                             type="button"
                             onClick={() => router.back()}
                             disabled={loading}
-                            style={{
-                                padding: "10px 20px",
-                                borderRadius: 6,
-                                fontSize: 14,
-                                fontWeight: 600,
-                                background: "transparent",
-                                border: `1px solid ${t.border}`,
-                                color: t.textSoft,
-                                cursor: "pointer",
-                            }}
+                            className="px-5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
                             disabled={loading}
-                            style={{
-                                padding: "10px 20px",
-                                borderRadius: 6,
-                                fontSize: 14,
-                                fontWeight: 600,
-                                background: t.primary,
-                                color: "white",
-                                border: "none",
-                                cursor: loading ? "not-allowed" : "pointer",
-                                opacity: loading ? 0.7 : 1,
-                            }}
+                            className="px-5 py-2.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-medium text-sm shadow-lg shadow-orange-900/20 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                         >
+                            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                             {loading ? "Menyimpan..." : "Simpan Artikel"}
                         </button>
                     </div>
                 </form>
             </div>
-        </AdminShell>
+        </div>
     );
 }

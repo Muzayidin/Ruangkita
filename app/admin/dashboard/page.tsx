@@ -109,7 +109,7 @@ export default async function AdminDashboardPage() {
             {/* Charts & Recent */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2">
-                    <AdminDashboardCharts />
+                    <AdminDashboardCharts orderCount={orderCount} />
                 </div>
 
                 {/* Recent Orders */}
@@ -134,12 +134,12 @@ export default async function AdminDashboardPage() {
                                         </div>
                                     </div>
                                     <span className={`text-[10px] px-2 py-1 rounded-full font-bold uppercase ${order.productionStatus === 'Selesai' || order.productionStatus === 'Terkirim'
-                                            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                                            : order.productionStatus === 'Proses'
-                                                ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
-                                                : 'bg-slate-100 text-slate-500'
+                                        ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                        : order.productionStatus === 'Proses'
+                                            ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+                                            : 'bg-slate-100 text-slate-500'
                                         }`}>
-                                        {order.productionStatus || 'Pending'}
+                                        {order.productionStatus === 'Terkirim' ? 'SELESAI' : (order.productionStatus || 'Pending').toUpperCase()}
                                     </span>
                                 </div>
                             ))
